@@ -1,5 +1,9 @@
 const express = require("express");
 const cors = require("cors");
+const upload = require("./config/multer");
+const extractTextFromPDF = require("./utils/pdfParser");
+const extractSkillsFromText = require("./utils/skillExtractor");
+
 
 const app = express();
 
@@ -17,27 +21,32 @@ app.get("/health", (req, res) => {
 const jobRoles = require("./data/jobRoles");
 const calculateScore = require("./utils/scoreCalculator");
 
-app.post("/api/analyze", (req, res) => {
+app.post("/api/analyze", upload.single("resume"), async (req, res) => {
+    try {
+        const { role } = req.body;
+        const selectedRole = jobRoles.find(
+            job => job.role === role
+        );
 
-    const resumeSkills = ["javascript", "react", "html", "css"];
+        if (!selectedRole) {
+            return res.status(404).json({ message: "Role not found" });
+        }
 
-    const { role } = req.body;
+        const resumeText = await extractTextFromPDF(req.file.path);
+        const resumeSkills = extractSkillsFromText(resumeText);
 
-    const selectedRole = jobRoles.find(
-        job => job.role === role
-    );
+        const result = calculateScore(resumeSkills, selectedRole);
 
-    if (!selectedRole) {
-        return res.status(404).json({ message: "Role not found" });
+        res.json({
+            role: selectedRole.role,
+            detectedSkills: resumeSkills,
+            ...result
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Resume analysis failed" });
     }
-
-    const result = calculateScore(resumeSkills, selectedRole);
-
-    res.json({
-        role: selectedRole.role,
-        ...result
-    });
 });
+
 
 
 app.listen(PORT, () => {
