@@ -15,3 +15,11 @@ to evaluate resume-job relevance in an explainable way.
 
 ## Status
 Phase 2 – Backend in progress
+
+## Backend Features Completed
+
+- Resume PDF upload using Multer
+- PDF text extraction pipeline
+- Skill detection using keyword mapping
+- AI-assisted scoring engine
+- Job-role based resume analysis API
