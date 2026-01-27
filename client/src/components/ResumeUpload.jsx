@@ -20,15 +20,37 @@ function ResumeUpload() {
         setResult(res.data);
     };
 
+    const styles = {
+        card: {
+            background: "white",
+            padding: "30px",
+            borderRadius: "10px",
+            boxShadow: "0 5px 15px rgba(0,0,0,0.08)",
+        },
+        button: {
+            marginTop: "15px",
+            padding: "10px 20px",
+            background: "#2563eb",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+        },
+    };
+
+
     return (
-        <div>
+        <div style={styles.card}>
+
             <input type="file" onChange={(e) => setFile(e.target.files[0])} />
             <select value={role} onChange={(e) => setRole(e.target.value)}>
                 <option>Frontend Developer</option>
                 <option>Backend Developer</option>
                 <option>Full Stack Developer</option>
             </select>
-            <button onClick={handleSubmit}>Analyze</button>
+            <button style={styles.button} onClick={handleSubmit}>
+                Analyze Resume
+            </button>
 
             {result && <Results data={result} />}
         </div>
