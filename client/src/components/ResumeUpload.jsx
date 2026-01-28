@@ -7,18 +7,34 @@ function ResumeUpload() {
     const [role, setRole] = useState("Frontend Developer");
     const [result, setResult] = useState(null);
 
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
     const handleSubmit = async () => {
+        if (!file) {
+            setError("Please upload a resume");
+            return;
+        }
+
+        setLoading(true);
+        setError("");
+
         const formData = new FormData();
         formData.append("resume", file);
         formData.append("role", role);
 
-        const res = await axios.post(
-            "http://localhost:5000/api/analyze",
-            formData
-        );
-
-        setResult(res.data);
+        try {
+            const res = await axios.post(
+                "http://localhost:5000/api/analyze",
+                formData
+            );
+            setResult(res.data);
+        } catch (err) {
+            setError("Analysis failed. Try again.");
+        } finally {
+            setLoading(false);
+        }
     };
+
 
     const styles = {
         card: {
@@ -38,19 +54,25 @@ function ResumeUpload() {
         },
     };
 
-
     return (
         <div style={styles.card}>
 
-            <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+            <input
+                type="file"
+                accept=".pdf"
+                onChange={(e) => setFile(e.target.files[0])}
+            />
             <select value={role} onChange={(e) => setRole(e.target.value)}>
                 <option>Frontend Developer</option>
                 <option>Backend Developer</option>
                 <option>Full Stack Developer</option>
             </select>
-            <button style={styles.button} onClick={handleSubmit}>
-                Analyze Resume
+            <button style={styles.button} onClick={handleSubmit} disabled={loading}>
+                {loading ? "Analyzing..." : "Analyze Resume"}
             </button>
+            {error && <p style={{ color: "red", marginTop: "10px" }}>{error}</p>}
+
+
 
             {result && <Results data={result} />}
         </div>
