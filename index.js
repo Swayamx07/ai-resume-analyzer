@@ -7,11 +7,19 @@ const extractSkillsFromText = require("./utils/skillExtractor");
 
 const app = express();
 
+require("dotenv").config();
+const connectDB = require("./config/db");
+connectDB();
+
+
 // middleware
 app.use(cors());
 app.use(express.json());
 
 const PORT = 5000;
+
+const authRoutes = require("./routes/authRoutes");
+app.use("/api/auth", authRoutes);
 
 // health check route
 app.get("/health", (req, res) => {
@@ -46,6 +54,13 @@ app.post("/api/analyze", upload.single("resume"), async (req, res) => {
         res.status(500).json({ message: "Resume analysis failed" });
     }
 });
+
+const protect = require("./middleware/authMiddleware");
+
+app.get("/api/protected", protect, (req, res) => {
+  res.json({ message: "Protected data accessed", user: req.user });
+});
+
 
 
 
