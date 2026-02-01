@@ -62,6 +62,19 @@ app.post("/api/analyze", protect, upload.single("resume"), async (req, res) => {
     }
 });
 
+const recommendJobs = require("./utils/recommendJobs");
+
+app.get("/api/jobs/recommend", protect, async (req, res) => {
+    const latestResume = await Resume.findOne({ user: req.user }).sort({ createdAt: -1 });
+
+    if (!latestResume) return res.status(404).json({ message: "No resume found" });
+
+    const recommendations = recommendJobs(latestResume.detectedSkills);
+
+    res.json(recommendations);
+});
+
+
 app.get("/api/resumes", protect, async (req, res) => {
     const resumes = await Resume.find({ user: req.user }).sort({ createdAt: -1 });
     res.json(resumes);
