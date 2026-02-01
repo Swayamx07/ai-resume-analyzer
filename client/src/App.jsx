@@ -1,25 +1,20 @@
-// import Layout from "./components/Layout";
-// import ResumeUpload from "./components/ResumeUpload";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import DashboardLayout from "./components/DashboardLayout";
 
-// function App() {
-//   return (
-//     <Layout>
-//       <ResumeUpload />
-//     </Layout>
-//   );
-// }
-
-// export default App;
+function DashboardHome() {
+  return <h2 className="text-2xl font-bold">Welcome to your AI Dashboard</h2>;
+}
 
 function App() {
   return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-      <h1 className="text-4xl font-bold text-blue-400">
-        Tailwind v4 Working 🚀
-      </h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<DashboardLayout />}>
+          <Route path="dashboard" element={<DashboardHome />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
 export default App;
-
