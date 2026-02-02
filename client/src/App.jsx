@@ -1,17 +1,17 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import DashboardLayout from "./components/DashboardLayout";
-
-function DashboardHome() {
-  return <h2 className="text-2xl font-bold">Welcome to your AI Dashboard</h2>;
-}
+import DashboardHome from "./pages/DashboardHome";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<DashboardLayout />}>
-          <Route path="dashboard" element={<DashboardHome />} />
+        <Route path="/" element={<Navigate to="/dashboard" />} />
+
+        <Route element={<DashboardLayout />}>
+          <Route path="/dashboard" element={<DashboardHome />} />
         </Route>
+
       </Routes>
     </BrowserRouter>
   );
