@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import API from "../api";
+import ResumeHistoryTable from "../components/ResumeHistoryTable";
 
 function DashboardHome() {
     const [stats, setStats] = useState({
@@ -8,18 +9,22 @@ function DashboardHome() {
         topJob: "N/A",
     });
 
+    const [resumes, setResumes] = useState([]);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const resumesRes = await API.get("/resumes");
                 const jobsRes = await API.get("/jobs/recommend");
 
-                const resumes = resumesRes.data;
+                const resumesData = resumesRes.data;
                 const jobs = jobsRes.data;
 
+                setResumes(resumesData);
+
                 setStats({
-                    resumeCount: resumes.length,
-                    latestScore: resumes[0]?.matchScore || 0,
+                    resumeCount: resumesData.length,
+                    latestScore: resumesData[0]?.matchScore || 0,
                     topJob: jobs[0]?.role || "N/A",
                 });
 
@@ -34,6 +39,7 @@ function DashboardHome() {
     return (
         <div className="space-y-8">
 
+            {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
                 <div className="bg-slate-900 p-6 rounded-xl shadow-md">
@@ -58,6 +64,9 @@ function DashboardHome() {
                 </div>
 
             </div>
+
+            {/* History Table */}
+            <ResumeHistoryTable resumes={resumes} />
 
         </div>
     );
