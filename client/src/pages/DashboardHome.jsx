@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import API from "../api";
 import ResumeHistoryTable from "../components/ResumeHistoryTable";
+import ScoreTrendChart from "../components/ScoreTrendChart";
+
 
 function DashboardHome() {
     const [stats, setStats] = useState({
@@ -65,8 +67,9 @@ function DashboardHome() {
 
             </div>
 
-            {/* History Table */}
             <ResumeHistoryTable resumes={resumes} />
+            <ScoreTrendChart resumes={resumes} />
+
 
         </div>
     );
