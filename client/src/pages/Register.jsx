@@ -1,31 +1,30 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../api";
-import { useEffect } from "react";
 
-
-function Login() {
+function Register() {
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
-    const handleLogin = async (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
         setError("");
 
         try {
-            const res = await API.post("/auth/login", {
+            await API.post("/auth/register", {
+                name,
                 email,
                 password,
             });
 
-            localStorage.setItem("token", res.data.token);
-
-            navigate("/dashboard");
+            // After successful registration → redirect to login
+            navigate("/login");
 
         } catch (err) {
-            setError("Invalid credentials");
+            setError("Registration failed. Email may already exist.");
         }
     };
 
@@ -33,10 +32,19 @@ function Login() {
         <div className="min-h-screen flex items-center justify-center bg-slate-950">
             <div className="bg-slate-900 p-8 rounded-xl w-full max-w-md shadow-lg">
                 <h2 className="text-2xl font-bold text-white mb-6 text-center">
-                    Login to AI Resume
+                    Create Account
                 </h2>
 
-                <form onSubmit={handleLogin} className="space-y-4">
+                <form onSubmit={handleRegister} className="space-y-4">
+
+                    <input
+                        type="text"
+                        placeholder="Full Name"
+                        className="w-full p-3 rounded bg-slate-800 text-white outline-none"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        required
+                    />
 
                     <input
                         type="email"
@@ -64,7 +72,7 @@ function Login() {
                         type="submit"
                         className="w-full bg-blue-600 hover:bg-blue-700 p-3 rounded font-semibold"
                     >
-                        Login
+                        Register
                     </button>
 
                 </form>
@@ -73,4 +81,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default Register;

@@ -7,6 +7,14 @@ function Layout({ children }) {
     );
 }
 
+useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+        navigate("/dashboard");
+    }
+}, []);
+
+
 const styles = {
     wrapper: {
         background: "#f5f7fb",

@@ -3,6 +3,8 @@ import DashboardLayout from "./components/DashboardLayout";
 import DashboardHome from "./pages/DashboardHome";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
+
 
 function App() {
   return (
@@ -10,6 +12,7 @@ function App() {
       <Routes>
 
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
         <Route path="/" element={<Navigate to="/dashboard" />} />
 
@@ -24,6 +27,7 @@ function App() {
         </Route>
 
       </Routes>
+
     </BrowserRouter>
   );
 }
