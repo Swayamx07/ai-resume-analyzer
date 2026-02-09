@@ -4,6 +4,9 @@ import DashboardHome from "./pages/DashboardHome";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Analyze from "./pages/Analyze";
+import Jobs from "./pages/Jobs";
+
 
 
 function App() {
@@ -24,6 +27,8 @@ function App() {
           }
         >
           <Route path="/dashboard" element={<DashboardHome />} />
+          <Route path="/analyze" element={<Analyze />} />
+          <Route path="/jobs" element={<Jobs />} />
         </Route>
 
       </Routes>

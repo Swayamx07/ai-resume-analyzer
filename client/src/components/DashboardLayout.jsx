@@ -1,5 +1,7 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { Link } from "react-router-dom";
+
 
 function DashboardLayout() {
     const navigate = useNavigate();
@@ -27,9 +29,19 @@ function DashboardLayout() {
                 </h2>
 
                 <nav className="space-y-4">
-                    <a href="/dashboard" className="block hover:text-blue-400">Dashboard</a>
-                    <a href="/analyze" className="block hover:text-blue-400">Analyze</a>
-                    <a href="/jobs" className="block hover:text-blue-400">Jobs</a>
+                    <nav className="space-y-4">
+                        <Link to="/dashboard" className="block hover:text-blue-400">
+                            Dashboard
+                        </Link>
+
+                        <Link to="/analyze" className="block hover:text-blue-400">
+                            Analyze
+                        </Link>
+
+                        <Link to="/jobs" className="block hover:text-blue-400">
+                            Jobs
+                        </Link>
+                    </nav>
                 </nav>
             </aside>
 
