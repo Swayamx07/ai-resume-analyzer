@@ -5,8 +5,6 @@ const extractTextFromPDF = require("./utils/pdfParser");
 const extractSkillsFromText = require("./utils/skillExtractor");
 const jobRoles = require("./data/jobRoles");
 
-
-
 const app = express();
 
 require("dotenv").config();
@@ -31,6 +29,8 @@ app.get("/health", (req, res) => {
 const Resume = require("./models/Resume");
 const protect = require("./middleware/authMiddleware");
 const calculateScore = require("./utils/calculateScore");
+const generateFeedback = require("./utils/aiFeedback");
+
 
 
 app.post("/api/analyze", protect, upload.single("resume"), async (req, res) => {
@@ -40,6 +40,8 @@ app.post("/api/analyze", protect, upload.single("resume"), async (req, res) => {
         const selectedRole = jobRoles.find(job => job.role === role);
         if (!selectedRole) return res.status(404).json({ message: "Role not found" });
 
+
+        const aiFeedback = await generateFeedback(resumeText, role);
         const resumeText = await extractTextFromPDF(req.file.path);
         const resumeSkills = extractSkillsFromText(resumeText);
         const result = calculateScore(resumeSkills, selectedRole);
@@ -51,7 +53,9 @@ app.post("/api/analyze", protect, upload.single("resume"), async (req, res) => {
             matchScore: result.matchScore,
             role,
             missingSkills: result.missingSkills,
+            aiFeedback,
         });
+
 
         res.json(saved);
 
@@ -61,19 +65,6 @@ app.post("/api/analyze", protect, upload.single("resume"), async (req, res) => {
         res.status(500).json({ message: "Resume analysis failed" });
     }
 });
-
-const recommendJobs = require("./utils/recommendJobs");
-
-app.get("/api/jobs/recommend", protect, async (req, res) => {
-    const latestResume = await Resume.findOne({ user: req.user }).sort({ createdAt: -1 });
-
-    if (!latestResume) return res.status(404).json({ message: "No resume found" });
-
-    const recommendations = recommendJobs(latestResume.detectedSkills);
-
-    res.json(recommendations);
-});
-
 
 app.get("/api/resumes", protect, async (req, res) => {
     const resumes = await Resume.find({ user: req.user }).sort({ createdAt: -1 });
