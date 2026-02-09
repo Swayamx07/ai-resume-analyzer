@@ -5,7 +5,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Analyze from "./pages/Analyze";
-import Jobs from "./pages/Jobs";
+import Jobs from "./pages/jobs.jsx";
 
 
 

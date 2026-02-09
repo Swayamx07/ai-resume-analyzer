@@ -41,10 +41,18 @@ app.post("/api/analyze", protect, upload.single("resume"), async (req, res) => {
         if (!selectedRole) return res.status(404).json({ message: "Role not found" });
 
 
-        const aiFeedback = await generateFeedback(resumeText, role);
+
         const resumeText = await extractTextFromPDF(req.file.path);
         const resumeSkills = extractSkillsFromText(resumeText);
         const result = calculateScore(resumeSkills, selectedRole);
+        let aiFeedback = "AI feedback currently unavailable.";
+
+        try {
+            aiFeedback = await generateFeedback(resumeText, role);
+        } catch (error) {
+            console.log("AI failed:", error.message);
+        }
+
 
         const saved = await Resume.create({
             user: req.user,
