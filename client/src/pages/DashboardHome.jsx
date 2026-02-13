@@ -15,28 +15,40 @@ function DashboardHome() {
 
     useEffect(() => {
         const fetchData = async () => {
+
             try {
                 const resumesRes = await API.get("/resumes");
-                const jobsRes = await API.get("/jobs/recommend");
-
                 const resumesData = resumesRes.data;
-                const jobs = jobsRes.data;
 
                 setResumes(resumesData);
 
-                setStats({
+                setStats(prev => ({
+                    ...prev,
                     resumeCount: resumesData.length,
                     latestScore: resumesData[0]?.matchScore || 0,
-                    topJob: jobs[0]?.role || "N/A",
-                });
+                }));
 
             } catch (err) {
-                console.error("Dashboard fetch error", err);
+                console.error("Resume fetch error", err);
+            }
+
+            try {
+                const jobsRes = await API.get("/jobs/recommend");
+                const jobs = jobsRes.data;
+
+                setStats(prev => ({
+                    ...prev,
+                    topJob: jobs[0]?.role || "N/A",
+                }));
+
+            } catch (err) {
+                console.error("Jobs fetch error", err);
             }
         };
 
         fetchData();
     }, []);
+
 
     return (
         <div className="space-y-8">

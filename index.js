@@ -75,9 +75,16 @@ app.post("/api/analyze", protect, upload.single("resume"), async (req, res) => {
 });
 
 app.get("/api/resumes", protect, async (req, res) => {
-    const resumes = await Resume.find({ user: req.user }).sort({ createdAt: -1 });
+    const resumes = await Resume.find({ user: req.user })
+        .sort({ createdAt: -1 });
+
     res.json(resumes);
 });
+
+const jobRoutes = require("./routes/jobRoutes");
+app.use("/api/jobs", jobRoutes);
+
+
 
 app.get("/api/protected", protect, (req, res) => {
     res.json({ message: "Protected data accessed", user: req.user });
