@@ -67,6 +67,17 @@ function Login() {
                         Login
                     </button>
 
+                    <p className="text-sm text-slate-400 mt-4">
+                        Don't have an account?{" "}
+                        <a href="/register" className="text-blue-400 hover:underline">
+                            Register
+                        </a>
+                    </p>
+
+
+                    console.log("Login request:", email, password);
+
+
                 </form>
             </div>
         </div>

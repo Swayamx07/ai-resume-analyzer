@@ -1,24 +1,22 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import DashboardLayout from "./components/DashboardLayout";
-import DashboardHome from "./pages/DashboardHome";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import DashboardHome from "./pages/DashboardHome";
 import Analyze from "./pages/Analyze";
-import Jobs from "./pages/jobs.jsx";
-
-
+import Jobs from "./pages/Jobs";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
 
+        {/* Public Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        <Route path="/" element={<Navigate to="/dashboard" />} />
-
+        {/* Protected Routes */}
         <Route
           element={
             <ProtectedRoute>
@@ -31,8 +29,9 @@ function App() {
           <Route path="/jobs" element={<Jobs />} />
         </Route>
 
-      </Routes>
+        <Route path="*" element={<Navigate to="/login" />} />
 
+      </Routes>
     </BrowserRouter>
   );
 }

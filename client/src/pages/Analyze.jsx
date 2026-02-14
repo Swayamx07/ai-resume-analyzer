@@ -71,33 +71,81 @@ function Analyze() {
                 )}
             </div>
 
+
             {/* Results Section */}
-            {result && (
-                <div className="bg-slate-900 p-6 rounded-xl space-y-4">
-                    <h3 className="text-xl font-semibold">Analysis Result</h3>
+            {result?.aiFeedback && (
+                <div className="mt-6 space-y-6">
 
-                    <p>
-                        <span className="text-slate-400">Match Score:</span>{" "}
-                        <span className="text-green-400 font-bold">
-                            {result.matchScore}%
-                        </span>
-                    </p>
-
-                    <p>
-                        <span className="text-slate-400">Missing Skills:</span>{" "}
-                        {result.missingSkills.join(", ")}
-                    </p>
-
-                    {result.aiFeedback && (
+                    {/* Summary */}
+                    {result.aiFeedback.summary && (
                         <div>
-                            <h4 className="mt-4 font-semibold">AI Feedback</h4>
-                            <p className="text-slate-300 whitespace-pre-line">
-                                {result.aiFeedback}
+                            <h3 className="text-lg font-semibold text-blue-400">
+                                Professional Summary
+                            </h3>
+                            <p className="text-slate-300 mt-2">
+                                {result.aiFeedback.summary}
                             </p>
                         </div>
                     )}
+
+                    {/* Strengths */}
+                    {result.aiFeedback.strengths?.length > 0 && (
+                        <div>
+                            <h3 className="text-lg font-semibold text-green-400">
+                                Strengths
+                            </h3>
+                            <ul className="list-disc list-inside text-slate-300 mt-2">
+                                {result.aiFeedback.strengths.map((item, i) => (
+                                    <li key={i}>{item}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+
+                    {/* Missing Skills */}
+                    {result.aiFeedback.missingSkills?.length > 0 && (
+                        <div>
+                            <h3 className="text-lg font-semibold text-red-400">
+                                Missing Skills
+                            </h3>
+                            <ul className="list-disc list-inside text-slate-300 mt-2">
+                                {result.aiFeedback.missingSkills.map((item, i) => (
+                                    <li key={i}>{item}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+
+                    {/* Suggestions */}
+                    {result.aiFeedback.suggestions?.length > 0 && (
+                        <div>
+                            <h3 className="text-lg font-semibold text-yellow-400">
+                                Suggestions
+                            </h3>
+                            <ul className="list-disc list-inside text-slate-300 mt-2">
+                                {result.aiFeedback.suggestions.map((item, i) => (
+                                    <li key={i}>{item}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+
+                    {/* Career Advice */}
+                    {result.aiFeedback.careerAdvice && (
+                        <div>
+                            <h3 className="text-lg font-semibold text-purple-400">
+                                Career Advice
+                            </h3>
+                            <p className="text-slate-300 mt-2">
+                                {result.aiFeedback.careerAdvice}
+                            </p>
+                        </div>
+                    )}
+
                 </div>
             )}
+
+
 
         </div>
     );
