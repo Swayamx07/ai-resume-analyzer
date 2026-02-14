@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const upload = require("./config/multer");
@@ -7,7 +8,9 @@ const jobRoles = require("./data/jobRoles");
 
 const app = express();
 
-require("dotenv").config();
+console.log("HF TOKEN:", process.env.HF_API_TOKEN);
+
+
 const connectDB = require("./config/db");
 connectDB();
 
@@ -33,6 +36,7 @@ const generateFeedback = require("./utils/aiFeedback");
 
 
 
+
 app.post("/api/analyze", protect, upload.single("resume"), async (req, res) => {
     try {
         const { role } = req.body;
@@ -45,13 +49,14 @@ app.post("/api/analyze", protect, upload.single("resume"), async (req, res) => {
         const resumeText = await extractTextFromPDF(req.file.path);
         const resumeSkills = extractSkillsFromText(resumeText);
         const result = calculateScore(resumeSkills, selectedRole);
-        let aiFeedback = "AI feedback currently unavailable.";
+        let aiFeedback = null;
 
         try {
             aiFeedback = await generateFeedback(resumeText, role);
         } catch (error) {
-            console.log("AI failed:", error.message);
+            console.log("FULL GEMINI ERROR:", error);
         }
+
 
 
         const saved = await Resume.create({

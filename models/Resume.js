@@ -15,8 +15,15 @@ const resumeSchema = new mongoose.Schema(
         missingSkills: [String],
 
         aiFeedback: {
-            type: String,
+            summary: String,
+            strengths: [String],
+            missingSkills: [String],
+            suggestions: [String],
+            careerAdvice: String,
         },
+
+
+
 
     },
     { timestamps: true }
