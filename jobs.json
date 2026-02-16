@@ -1,0 +1,19 @@
+[
+    {
+        "title": "Frontend Developer",
+        "requiredSkills": [
+            "html",
+            "css",
+            "javascript",
+            "react"
+        ]
+    },
+    {
+        "title": "Backend Developer",
+        "requiredSkills": [
+            "node",
+            "express",
+            "mongodb"
+        ]
+    }
+]

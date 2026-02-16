@@ -75,9 +75,6 @@ function Login() {
                     </p>
 
 
-                    console.log("Login request:", email, password);
-
-
                 </form>
             </div>
         </div>

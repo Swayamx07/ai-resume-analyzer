@@ -19,7 +19,9 @@ function calculateScore(resumeSkills, jobRole) {
     const matchScore = Math.round(requiredScore + optionalScore);
 
     const missingSkills = required.filter(
-        skill => !resumeSkills.includes(skill)
+        skill => resumeSkills.some(s =>
+            s.toLowerCase().includes(skill.toLowerCase())
+        )
     );
 
     return {

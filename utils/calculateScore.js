@@ -1,22 +1,23 @@
 function calculateScore(resumeSkills, roleData) {
-    if (!roleData || !roleData.requiredSkills) {
-        throw new Error("Role data missing requiredSkills");
-    }
-
-    const required = roleData.requiredSkills;
+    const required = roleData.requiredSkills || [];
 
     const matchedSkills = required.filter(skill =>
-        resumeSkills.includes(skill)
+        resumeSkills
+            .map(s => s.toLowerCase())
+            .includes(skill.toLowerCase())
     );
 
     const missingSkills = required.filter(skill =>
-        !resumeSkills.includes(skill)
+        !resumeSkills
+            .map(s => s.toLowerCase())
+            .includes(skill.toLowerCase())
     );
 
-    const matchScore = Math.round(
-        (matchedSkills.length / required.length) * 100
-    );
+    const matchScore = required.length === 0
+        ? 0
+        : Math.round((matchedSkills.length / required.length) * 100);
 
     return { matchScore, matchedSkills, missingSkills };
 }
- module.exports = calculateScore;
+
+module.exports = calculateScore;

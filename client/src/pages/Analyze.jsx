@@ -1,12 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import API from "../api";
 
 function Analyze() {
     const [file, setFile] = useState(null);
-    const [role, setRole] = useState("Frontend Developer");
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState(null);
     const [error, setError] = useState("");
+    const [role, setRole] = useState("");
+    const [jobRoles, setJobRoles] = useState([]);
+
+    useEffect(() => {
+        const fetchRoles = async () => {
+            try {
+                const res = await API.get("/jobs");
+                console.log("Roles from backend:", res.data);
+
+                setJobRoles(res.data);
+
+                if (res.data.length > 0) {
+                    setRole(res.data[0].title);
+                }
+            } catch (err) {
+                console.error("Failed to fetch roles", err);
+            }
+        };
+
+        fetchRoles();
+    }, []);
+
+
+    useEffect(() => {
+        if (jobRoles.length > 0) {
+            setRole(jobRoles[0].title);
+        }
+    }, [jobRoles]);
+
 
     const handleSubmit = async () => {
         if (!file) {
@@ -47,15 +75,24 @@ function Analyze() {
                 />
 
                 {/* Role Selector */}
+
                 <select
                     value={role}
                     onChange={(e) => setRole(e.target.value)}
                     className="w-full p-3 bg-slate-800 rounded"
                 >
-                    <option>Frontend Developer</option>
-                    <option>Backend Developer</option>
-                    <option>Full Stack Developer</option>
+                    <option value="" disabled>
+                        Select a Job Role
+                    </option>
+
+                    {jobRoles.map((job) => (
+                        <option key={job._id} value={job.title}>
+                            {job.title}
+                        </option>
+                    ))}
                 </select>
+
+
 
                 {/* Button */}
                 <button
