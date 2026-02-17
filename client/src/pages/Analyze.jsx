@@ -125,6 +125,36 @@ function Analyze() {
                         </div>
                     )}
 
+                    {/* Score Section */}
+                    {result && (
+                        <div className="bg-slate-900 p-6 rounded-xl mt-6 space-y-4">
+
+                            <div>
+                                <h3 className="text-lg font-semibold text-green-400">
+                                    Match Score
+                                </h3>
+                                <p className="text-3xl font-bold text-green-400 mt-2">
+                                    {result.matchScore}%
+                                </p>
+                            </div>
+
+                            {result.missingSkills?.length > 0 && (
+                                <div>
+                                    <h3 className="text-lg font-semibold text-red-400">
+                                        Missing Skills (Role Based)
+                                    </h3>
+                                    <ul className="list-disc list-inside text-slate-300 mt-2">
+                                        {result.missingSkills.map((skill, i) => (
+                                            <li key={i}>{skill}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+
+                        </div>
+                    )}
+
+
                     {/* Strengths */}
                     {result.aiFeedback.strengths?.length > 0 && (
                         <div>
