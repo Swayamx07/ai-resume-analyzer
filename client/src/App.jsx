@@ -7,32 +7,44 @@ import DashboardHome from "./pages/DashboardHome";
 import Analyze from "./pages/Analyze";
 import Jobs from "./pages/Jobs";
 
+
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
+    <div className="min-h-screen relative bg-[#020617] text-white overflow-hidden">
 
-        {/* Public Routes */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+      {/* Gradient Glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(139,92,246,0.18),transparent_60%)]" />
 
-        {/* Protected Routes */}
-        <Route
-          element={
-            <ProtectedRoute>
-              <DashboardLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route path="/dashboard" element={<DashboardHome />} />
-          <Route path="/analyze" element={<Analyze />} />
-          <Route path="/jobs" element={<Jobs />} />
-        </Route>
+      {/* Content */}
+      <div className="relative z-10 p-6">
+        {/* your routes render here */}
+        <BrowserRouter>
+          <Routes>
 
-        <Route path="*" element={<Navigate to="/login" />} />
+            {/* Public Routes */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
 
-      </Routes>
-    </BrowserRouter>
+            {/* Protected Routes */}
+            <Route
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route path="/dashboard" element={<DashboardHome />} />
+              <Route path="/analyze" element={<Analyze />} />
+              <Route path="/jobs" element={<Jobs />} />
+            </Route>
+
+            <Route path="*" element={<Navigate to="/login" />} />
+
+          </Routes>
+        </BrowserRouter>
+      </div>
+
+    </div>
   );
 }
 
