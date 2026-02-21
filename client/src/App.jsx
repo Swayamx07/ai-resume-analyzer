@@ -1,50 +1,49 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
 import DashboardLayout from "./components/DashboardLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
+
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import DashboardHome from "./pages/DashboardHome";
 import Analyze from "./pages/Analyze";
 import Jobs from "./pages/Jobs";
 
-
 function App() {
   return (
-    <div className="min-h-screen relative bg-[#020617] text-white overflow-hidden">
+    <BrowserRouter>
+      <Routes>
 
-      {/* Gradient Glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(139,92,246,0.18),transparent_60%)]" />
+        {/* PUBLIC ROUTES */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-      {/* Content */}
-      <div className="relative z-10 p-6">
-        {/* your routes render here */}
-        <BrowserRouter>
-          <Routes>
+        {/* ANALYZE = FULLSCREEN PAGE (NOT DASHBOARD) */}
+        <Route
+          path="/analyze"
+          element={
+            <ProtectedRoute>
+              <Analyze />
+            </ProtectedRoute>
+          }
+        />
 
-            {/* Public Routes */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+        {/* DASHBOARD LAYOUT ROUTES */}
+        <Route
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/dashboard" element={<DashboardHome />} />
+          <Route path="/jobs" element={<Jobs />} />
+        </Route>
 
-            {/* Protected Routes */}
-            <Route
-              element={
-                <ProtectedRoute>
-                  <DashboardLayout />
-                </ProtectedRoute>
-              }
-            >
-              <Route path="/dashboard" element={<DashboardHome />} />
-              <Route path="/analyze" element={<Analyze />} />
-              <Route path="/jobs" element={<Jobs />} />
-            </Route>
+        <Route path="*" element={<Navigate to="/login" />} />
 
-            <Route path="*" element={<Navigate to="/login" />} />
-
-          </Routes>
-        </BrowserRouter>
-      </div>
-
-    </div>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

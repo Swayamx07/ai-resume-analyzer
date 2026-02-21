@@ -3,7 +3,6 @@ import API from "../api";
 import ResumeHistoryTable from "../components/ResumeHistoryTable";
 import ScoreTrendChart from "../components/ScoreTrendChart";
 
-
 function DashboardHome() {
     const [stats, setStats] = useState({
         resumeCount: 0,
@@ -15,19 +14,17 @@ function DashboardHome() {
 
     useEffect(() => {
         const fetchData = async () => {
-
             try {
                 const resumesRes = await API.get("/resumes");
                 const resumesData = resumesRes.data;
 
                 setResumes(resumesData);
 
-                setStats(prev => ({
+                setStats((prev) => ({
                     ...prev,
                     resumeCount: resumesData.length,
                     latestScore: resumesData[0]?.matchScore || 0,
                 }));
-
             } catch (err) {
                 console.error("Resume fetch error", err);
             }
@@ -36,11 +33,10 @@ function DashboardHome() {
                 const jobsRes = await API.get("/jobs/recommend");
                 const jobs = jobsRes.data;
 
-                setStats(prev => ({
+                setStats((prev) => ({
                     ...prev,
                     topJob: jobs[0]?.role || "N/A",
                 }));
-
             } catch (err) {
                 console.error("Jobs fetch error", err);
             }
@@ -49,39 +45,59 @@ function DashboardHome() {
         fetchData();
     }, []);
 
-
     return (
-        <div className="space-y-8">
+        <div className="space-y-10">
 
-            {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* PAGE TITLE */}
+            <div>
+                <h1 className="text-3xl font-semibold tracking-tight">
+                    Welcome back 👋
+                </h1>
+                <p className="text-slate-400 mt-1">
+                    Here’s your resume analytics overview.
+                </p>
+            </div>
 
-                <div className="bg-slate-900 p-6 rounded-xl shadow-md">
-                    <h3 className="text-sm text-slate-400">Resumes Analyzed</h3>
-                    <p className="text-3xl font-bold text-blue-400 mt-2">
+            {/* STATS */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                {/* Card 1 */}
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-lg">
+                    <h3 className="text-sm text-slate-400">
+                        Resumes Analyzed
+                    </h3>
+                    <p className="text-4xl font-semibold text-blue-400 mt-3">
                         {stats.resumeCount}
                     </p>
                 </div>
 
-                <div className="bg-slate-900 p-6 rounded-xl shadow-md">
-                    <h3 className="text-sm text-slate-400">Latest Match Score</h3>
-                    <p className="text-3xl font-bold text-green-400 mt-2">
+                {/* Card 2 */}
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-lg">
+                    <h3 className="text-sm text-slate-400">
+                        Latest Match Score
+                    </h3>
+                    <p className="text-4xl font-semibold text-green-400 mt-3">
                         {stats.latestScore}%
                     </p>
                 </div>
 
-                <div className="bg-slate-900 p-6 rounded-xl shadow-md">
-                    <h3 className="text-sm text-slate-400">Top Job Match</h3>
-                    <p className="text-3xl font-bold text-purple-400 mt-2">
+                {/* Card 3 */}
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-lg">
+                    <h3 className="text-sm text-slate-400">
+                        Top Job Match
+                    </h3>
+                    <p className="text-4xl font-semibold text-purple-400 mt-3">
                         {stats.topJob}
                     </p>
                 </div>
 
             </div>
 
+            {/* TABLE */}
             <ResumeHistoryTable resumes={resumes} />
-            <ScoreTrendChart resumes={resumes} />
 
+            {/* CHART */}
+            <ScoreTrendChart resumes={resumes} />
 
         </div>
     );

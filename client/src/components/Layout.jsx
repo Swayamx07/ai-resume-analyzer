@@ -1,37 +1,37 @@
-function Layout({ children }) {
-    return (
-        <div style={styles.wrapper}>
-            <div style={styles.nav}>AI Resume Analyzer</div>
-            <div style={styles.content}>{children}</div>
-        </div>
-    );
-}
+// function Layout({ children }) {
+//     return (
+//         <div style={styles.wrapper}>
+//             <div style={styles.nav}>AI Resume Analyzer</div>
+//             <div style={styles.content}>{children}</div>
+//         </div>
+//     );
+// }
 
-useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-        navigate("/dashboard");
-    }
-}, []);
+// useEffect(() => {
+//     const token = localStorage.getItem("token");
+//     if (token) {
+//         navigate("/dashboard");
+//     }
+// }, []);
 
 
-const styles = {
-    wrapper: {
-        background: "#f5f7fb",
-        minHeight: "100vh",
-    },
-    nav: {
-        background: "#0f172a",
-        color: "white",
-        padding: "15px 30px",
-        fontSize: "18px",
-        fontWeight: "bold",
-    },
-    content: {
-        padding: "40px",
-        maxWidth: "900px",
-        margin: "auto",
-    },
-};
+// const styles = {
+//     wrapper: {
+//         background: "#f5f7fb",
+//         minHeight: "100vh",
+//     },
+//     nav: {
+//         background: "#0f172a",
+//         color: "white",
+//         padding: "15px 30px",
+//         fontSize: "18px",
+//         fontWeight: "bold",
+//     },
+//     content: {
+//         padding: "40px",
+//         maxWidth: "900px",
+//         margin: "auto",
+//     },
+// };
 
-export default Layout;
+// export default Layout;

@@ -20,37 +20,40 @@ function DashboardLayout() {
     };
 
     return (
-        <div className="flex min-h-screen bg-slate-950 text-slate-200">
+        <div className="relative flex min-h-screen text-slate-200 bg-[#020617] overflow-hidden">
+
+            {/* GLOBAL GLOW */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(139,92,246,0.18),transparent_60%)] pointer-events-none" />
 
             {/* Sidebar */}
-            <aside className="w-64 bg-slate-900 p-6 hidden md:block">
-                <h2 className="text-xl font-bold text-blue-400 mb-8">
+            <aside className="relative z-10 w-64 bg-white/5 backdrop-blur-xl border-r border-white/10 p-6 hidden md:block">
+                <h2 className="text-xl font-bold text-blue-400 mb-10">
                     AI Resume
                 </h2>
 
-                <nav className="space-y-4">
-                    <nav className="space-y-4">
-                        <Link to="/dashboard" className="block hover:text-blue-400">
-                            Dashboard
-                        </Link>
+                <nav className="space-y-5 text-sm">
+                    <Link to="/dashboard" className="block hover:text-blue-400 transition">
+                        Dashboard
+                    </Link>
 
-                        <Link to="/analyze" className="block hover:text-blue-400">
-                            Analyze
-                        </Link>
+                    <Link to="/analyze" className="block hover:text-blue-400 transition">
+                        Analyze
+                    </Link>
 
-                        <Link to="/jobs" className="block hover:text-blue-400">
-                            Jobs
-                        </Link>
-                    </nav>
+                    <Link to="/jobs" className="block hover:text-blue-400 transition">
+                        Jobs
+                    </Link>
                 </nav>
             </aside>
 
             {/* Main */}
-            <div className="flex-1 flex flex-col">
+            <div className="relative z-10 flex-1 flex flex-col">
 
                 {/* Navbar */}
-                <header className="bg-slate-900 p-4 flex justify-between items-center border-b border-slate-800">
-                    <h1 className="text-lg font-semibold">Dashboard</h1>
+                <header className="bg-white/5 backdrop-blur-xl border-b border-white/10 px-6 py-4 flex justify-between items-center">
+                    <h1 className="text-lg font-semibold tracking-tight">
+                        Dashboard
+                    </h1>
 
                     <div className="flex items-center gap-4">
                         <span className="text-sm text-slate-400">
@@ -59,14 +62,14 @@ function DashboardLayout() {
 
                         <button
                             onClick={handleLogout}
-                            className="bg-red-600 px-4 py-2 rounded hover:bg-red-700"
+                            className="bg-red-600/90 hover:bg-red-600 px-4 py-2 rounded-lg transition"
                         >
                             Logout
                         </button>
                     </div>
                 </header>
 
-                <main className="p-6 flex-1 overflow-y-auto">
+                <main className="flex-1 overflow-y-auto p-8">
                     <Outlet />
                 </main>
 

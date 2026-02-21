@@ -1,89 +1,113 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import API from "../api";
+import HeroBackground from "../components/HeroBackground";
 
-function Analyze() {
+export default function Analyze() {
     const [file, setFile] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [result, setResult] = useState(null);
-    const [error, setError] = useState("");
     const [role, setRole] = useState("");
     const [jobRoles, setJobRoles] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [result, setResult] = useState(null);
 
     useEffect(() => {
         const fetchRoles = async () => {
             try {
                 const res = await API.get("/jobs");
-                console.log("Roles from backend:", res.data);
-
                 setJobRoles(res.data);
-
-                if (res.data.length > 0) {
-                    setRole(res.data[0].title);
-                }
             } catch (err) {
-                console.error("Failed to fetch roles", err);
+                console.log(err);
             }
         };
 
         fetchRoles();
     }, []);
 
-
-    useEffect(() => {
-        if (jobRoles.length > 0) {
-            setRole(jobRoles[0].title);
-        }
-    }, [jobRoles]);
-
-
     const handleSubmit = async () => {
-        if (!file) {
-            setError("Please upload a PDF resume");
-            return;
-        }
-
-        setLoading(true);
-        setError("");
+        if (!file || !role) return;
 
         const formData = new FormData();
         formData.append("resume", file);
         formData.append("role", role);
 
+        setLoading(true);
+
         try {
             const res = await API.post("/analyze", formData);
             setResult(res.data);
         } catch (err) {
-            setError("Analysis failed");
-        } finally {
-            setLoading(false);
+            console.log(err);
         }
+
+        setLoading(false);
     };
 
     return (
-        <div className="max-w-3xl mx-auto space-y-6">
+        <div className="relative min-h-screen flex flex-col items-center justify-center px-6">
 
-            <h2 className="text-2xl font-bold">Analyze Resume</h2>
+            <HeroBackground />
 
-            <div className="bg-slate-900 p-6 rounded-xl space-y-4">
+            {/* HERO TEXT */}
+            <div className="text-center max-w-4xl space-y-6">
 
-                {/* File Upload */}
+                <h1 className="
+          text-5xl md:text-7xl
+          font-semibold
+          tracking-tight
+        ">
+                    Analyze your Resume
+                    <br />
+                    <span className="text-gray-400">
+                        with AI intelligence
+                    </span>
+                </h1>
+
+                <p className="text-gray-400 text-lg">
+                    Upload your resume and get instant skill analysis,
+                    match score, and career feedback powered by AI.
+                </p>
+
+            </div>
+
+            {/* FORM */}
+            <div className="
+        mt-12
+        w-full
+        max-w-xl
+        bg-[#111114]
+        border border-white/10
+        rounded-2xl
+        p-6
+        space-y-4
+      ">
+
+                {/* Upload */}
                 <input
                     type="file"
                     accept=".pdf"
                     onChange={(e) => setFile(e.target.files[0])}
-                    className="w-full p-3 bg-slate-800 rounded"
+                    className="
+            w-full
+            p-3
+            rounded-lg
+            bg-[#0b0b0f]
+            border border-white/10
+            text-sm
+          "
                 />
 
-                {/* Role Selector */}
-
+                {/* Role Select */}
                 <select
                     value={role}
                     onChange={(e) => setRole(e.target.value)}
-                    className="w-full p-3 bg-slate-800 rounded"
+                    className="
+            w-full
+            p-3
+            rounded-lg
+            bg-[#0b0b0f]
+            border border-white/10
+          "
                 >
-                    <option value="" disabled>
-                        Select a Job Role
-                    </option>
+                    <option value="">Select Job Role</option>
 
                     {jobRoles.map((job) => (
                         <option key={job._id} value={job.title}>
@@ -92,130 +116,45 @@ function Analyze() {
                     ))}
                 </select>
 
-
-
                 {/* Button */}
                 <button
                     onClick={handleSubmit}
-                    disabled={loading}
-                    className="w-full bg-blue-600 hover:bg-blue-700 p-3 rounded font-semibold"
+                    className="
+            w-full
+            py-3
+            rounded-lg
+            bg-blue-600
+            hover:bg-blue-500
+            transition
+            font-medium
+          "
                 >
                     {loading ? "Analyzing..." : "Analyze Resume"}
                 </button>
 
-                {error && (
-                    <p className="text-red-400 text-sm">{error}</p>
-                )}
             </div>
 
+            {/* RESULT */}
+            {result && (
+                <div className="
+          mt-10
+          max-w-xl
+          w-full
+          bg-[#111114]
+          border border-white/10
+          rounded-2xl
+          p-6
+        ">
+                    <h3 className="text-xl font-semibold mb-3">
+                        Match Score: {result.matchScore}%
+                    </h3>
 
-            {/* Results Section */}
-            {result?.aiFeedback && (
-                <div className="mt-6 space-y-6">
-
-                    {/* Summary */}
-                    {result.aiFeedback.summary && (
-                        <div>
-                            <h3 className="text-lg font-semibold text-blue-400">
-                                Professional Summary
-                            </h3>
-                            <p className="text-slate-300 mt-2">
-                                {result.aiFeedback.summary}
-                            </p>
-                        </div>
-                    )}
-
-                    {/* Score Section */}
-                    {result && (
-                        <div className="bg-slate-900 p-6 rounded-xl mt-6 space-y-4">
-
-                            <div>
-                                <h3 className="text-lg font-semibold text-green-400">
-                                    Match Score
-                                </h3>
-                                <p className="text-3xl font-bold text-green-400 mt-2">
-                                    {result.matchScore}%
-                                </p>
-                            </div>
-
-                            {result.missingSkills?.length > 0 && (
-                                <div>
-                                    <h3 className="text-lg font-semibold text-red-400">
-                                        Missing Skills (Role Based)
-                                    </h3>
-                                    <ul className="list-disc list-inside text-slate-300 mt-2">
-                                        {result.missingSkills.map((skill, i) => (
-                                            <li key={i}>{skill}</li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            )}
-
-                        </div>
-                    )}
-
-
-                    {/* Strengths */}
-                    {result.aiFeedback.strengths?.length > 0 && (
-                        <div>
-                            <h3 className="text-lg font-semibold text-green-400">
-                                Strengths
-                            </h3>
-                            <ul className="list-disc list-inside text-slate-300 mt-2">
-                                {result.aiFeedback.strengths.map((item, i) => (
-                                    <li key={i}>{item}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
-
-                    {/* Missing Skills */}
-                    {result.aiFeedback.missingSkills?.length > 0 && (
-                        <div>
-                            <h3 className="text-lg font-semibold text-red-400">
-                                Missing Skills
-                            </h3>
-                            <ul className="list-disc list-inside text-slate-300 mt-2">
-                                {result.aiFeedback.missingSkills.map((item, i) => (
-                                    <li key={i}>{item}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
-
-                    {/* Suggestions */}
-                    {result.aiFeedback.suggestions?.length > 0 && (
-                        <div>
-                            <h3 className="text-lg font-semibold text-yellow-400">
-                                Suggestions
-                            </h3>
-                            <ul className="list-disc list-inside text-slate-300 mt-2">
-                                {result.aiFeedback.suggestions.map((item, i) => (
-                                    <li key={i}>{item}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
-
-                    {/* Career Advice */}
-                    {result.aiFeedback.careerAdvice && (
-                        <div>
-                            <h3 className="text-lg font-semibold text-purple-400">
-                                Career Advice
-                            </h3>
-                            <p className="text-slate-300 mt-2">
-                                {result.aiFeedback.careerAdvice}
-                            </p>
-                        </div>
-                    )}
-
+                    <p className="text-gray-400">
+                        {result.aiFeedback?.summary}
+                    </p>
                 </div>
             )}
-
-
 
         </div>
     );
 }
-
-export default Analyze;

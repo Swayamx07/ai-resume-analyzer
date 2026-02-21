@@ -15,14 +15,31 @@ function ScoreTrendChart({ resumes }) {
     }));
 
     return (
-        <div className="bg-slate-900 p-6 rounded-xl shadow-md mt-8">
+        <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-2xl mt-10">
             <h2 className="text-xl font-semibold mb-4">Match Score Trend</h2>
 
             <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={chartData}>
-                    <CartesianGrid stroke="#1e293b" />
-                    <XAxis dataKey="date" stroke="#94a3b8" />
-                    <YAxis stroke="#94a3b8" />
+                    <CartesianGrid stroke="rgba(255,255,255,0.08)" />
+
+                    <XAxis
+                        dataKey="date"
+                        stroke="#94a3b8"
+                        tick={{ fontSize: 12 }}
+                    />
+
+                    <YAxis
+                        stroke="#94a3b8"
+                        tick={{ fontSize: 12 }}
+                    />
+
+                    <Tooltip
+                        contentStyle={{
+                            background: "#020617",
+                            border: "1px solid rgba(255,255,255,0.1)",
+                            borderRadius: "12px",
+                        }}
+                    />
                     <Tooltip />
                     <Line type="monotone" dataKey="score" stroke="#3b82f6" strokeWidth={3} />
                 </LineChart>
