@@ -50,7 +50,7 @@ function DashboardHome() {
 
             {/* PAGE TITLE */}
             <div>
-                <h1 className="text-3xl font-semibold tracking-tight">
+                <h1 className="text-4xl font-semibold tracking-tight">
                     Welcome back 👋
                 </h1>
                 <p className="text-slate-400 mt-1">
@@ -62,7 +62,7 @@ function DashboardHome() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
                 {/* Card 1 */}
-                <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-lg">
+                <div className="bg-white/[0.03] backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-lg">
                     <h3 className="text-sm text-slate-400">
                         Resumes Analyzed
                     </h3>
@@ -72,7 +72,7 @@ function DashboardHome() {
                 </div>
 
                 {/* Card 2 */}
-                <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-lg">
+                <div className="bg-white/[0.03] backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-lg">
                     <h3 className="text-sm text-slate-400">
                         Latest Match Score
                     </h3>
@@ -82,7 +82,7 @@ function DashboardHome() {
                 </div>
 
                 {/* Card 3 */}
-                <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-lg">
+                <div className="bg-white/[0.03] backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-lg">
                     <h3 className="text-sm text-slate-400">
                         Top Job Match
                     </h3>

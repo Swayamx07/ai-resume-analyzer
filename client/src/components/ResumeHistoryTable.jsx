@@ -1,6 +1,6 @@
 function ResumeHistoryTable({ resumes }) {
     return (
-        <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-2xl mt-10">
+        <div className="bg-white/[0.03] backdrop-blur-xl border border-white/10 p-6 rounded-2xl mt-10">
             <h2 className="text-xl font-semibold mb-4">Resume Analysis History</h2>
 
             <div className="overflow-x-auto">

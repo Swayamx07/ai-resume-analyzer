@@ -22,11 +22,9 @@ function DashboardLayout() {
     return (
         <div className="relative flex min-h-screen text-slate-200 bg-[#020617] overflow-hidden">
 
-            {/* GLOBAL GLOW */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(139,92,246,0.18),transparent_60%)] pointer-events-none" />
 
             {/* Sidebar */}
-            <aside className="relative z-10 w-64 bg-white/5 backdrop-blur-xl border-r border-white/10 p-6 hidden md:block">
+            <aside className="relative z-10 w-64 bg-white/[0.03] backdrop-blur-xl border-r border-white/10 p-6 hidden md:block">
                 <h2 className="text-xl font-bold text-blue-400 mb-10">
                     AI Resume
                 </h2>
@@ -50,7 +48,7 @@ function DashboardLayout() {
             <div className="relative z-10 flex-1 flex flex-col">
 
                 {/* Navbar */}
-                <header className="bg-white/5 backdrop-blur-xl border-b border-white/10 px-6 py-4 flex justify-between items-center">
+                <header className="bg-white/[0.03] backdrop-blur-xl border-b border-white/10 px-6 py-4 flex justify-between items-center">
                     <h1 className="text-lg font-semibold tracking-tight">
                         Dashboard
                     </h1>

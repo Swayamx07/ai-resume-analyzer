@@ -1,13 +1,12 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import API from "../api";
-import { useEffect } from "react";
-
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
@@ -15,24 +14,31 @@ function Login() {
         setError("");
 
         try {
-            const res = await API.post("/auth/login", {
-                email,
-                password,
-            });
-
+            const res = await API.post("/auth/login", { email, password });
             localStorage.setItem("token", res.data.token);
-
             navigate("/dashboard");
-
-        } catch (err) {
+        } catch {
             setError("Invalid credentials");
         }
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-950">
-            <div className="bg-slate-900 p-8 rounded-xl w-full max-w-md shadow-lg">
-                <h2 className="text-2xl font-bold text-white mb-6 text-center">
+        <div className="relative min-h-screen flex items-center justify-center px-6">
+
+            {/* HERO TEXT */}
+            <div className="absolute top-24 text-center space-y-3">
+                <h1 className="text-5xl font-semibold tracking-tight">
+                    Welcome Back
+                </h1>
+                <p className="text-slate-400">
+                    Continue your AI-powered resume journey.
+                </p>
+            </div>
+
+            {/* LOGIN CARD */}
+            <div className="w-full max-w-md bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-xl">
+
+                <h2 className="text-xl font-semibold mb-6 text-center">
                     Login to AI Resume
                 </h2>
 
@@ -41,7 +47,7 @@ function Login() {
                     <input
                         type="email"
                         placeholder="Email"
-                        className="w-full p-3 rounded bg-slate-800 text-white outline-none"
+                        className="w-full p-3 rounded-lg bg-[#0b0b0f] border border-white/10 outline-none focus:border-blue-500 transition"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
@@ -50,7 +56,7 @@ function Login() {
                     <input
                         type="password"
                         placeholder="Password"
-                        className="w-full p-3 rounded bg-slate-800 text-white outline-none"
+                        className="w-full p-3 rounded-lg bg-[#0b0b0f] border border-white/10 outline-none focus:border-blue-500 transition"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
@@ -62,18 +68,17 @@ function Login() {
 
                     <button
                         type="submit"
-                        className="w-full bg-blue-600 hover:bg-blue-700 p-3 rounded font-semibold"
+                        className="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-500 transition font-medium"
                     >
                         Login
                     </button>
 
-                    <p className="text-sm text-slate-400 mt-4">
-                        Don't have an account?{" "}
-                        <a href="/register" className="text-blue-400 hover:underline">
+                    <p className="text-sm text-slate-400 text-center pt-2">
+                        Don’t have an account?{" "}
+                        <Link to="/register" className="text-blue-400 hover:underline">
                             Register
-                        </a>
+                        </Link>
                     </p>
-
 
                 </form>
             </div>
