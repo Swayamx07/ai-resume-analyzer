@@ -29,6 +29,8 @@ function AppRoutes() {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
 
+        <Route path="/" element={<Navigate to="/login" replace />} />
+
         {/* PUBLIC */}
         <Route path="/login" element={<PageWrapper><Login /></PageWrapper>} />
         <Route path="/register" element={<PageWrapper><Register /></PageWrapper>} />
