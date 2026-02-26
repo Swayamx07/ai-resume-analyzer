@@ -1,42 +1,63 @@
-const axios = require("axios");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-async function generateFeedback(resumeText) {
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+async function generateFeedback(resumeText, role) {
     try {
-        const response = await axios.post(
-            "https://router.huggingface.co/hf-inference/models/facebook/bart-large-cnn",
-            {
-                inputs: resumeText,
-                parameters: {
-                    max_length: 200,
-                }
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${process.env.HF_API_TOKEN}`,
-                    "Content-Type": "application/json",
-                },
-            }
-        );
+        const model = genAI.getGenerativeModel({
+            model: "gemini-1.5-flash-latest",
+        });
 
-        const summary = response.data[0]?.summary_text || "No summary generated.";
+        const prompt = `
+You are an expert ATS resume analyzer.
 
-        return {
-            summary,
-            strengths: [],
-            missingSkills: [],
-            suggestions: [],
-            careerAdvice: ""
-        };
+Analyze the following resume for the role: ${role}.
+
+Return ONLY valid JSON in this exact format:
+
+{
+  "summary": "",
+  "strengths": [],
+  "missingSkills": [],
+  "suggestions": [],
+  "careerAdvice": ""
+}
+
+Rules:
+- Summary: short professional overview (3–4 sentences)
+- Strengths: key positive aspects
+- MissingSkills: important skills missing for the role
+- Suggestions: actionable improvements
+- CareerAdvice: career growth advice
+
+Resume:
+${resumeText.slice(0, 12000)}
+`;
+
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
+
+        // Extract JSON safely
+        const jsonMatch = text.match(/\{[\s\S]*\}/);
+
+        if (!jsonMatch) {
+            throw new Error("Invalid AI response format");
+        }
+
+        const parsed = JSON.parse(jsonMatch[0]);
+
+        return parsed;
 
     } catch (error) {
-        console.error("HF FULL ERROR:", error.response?.data || error.message);
+        console.error("GEMINI ERROR:", error.message);
 
         return {
-            summary: "AI service temporarily unavailable.",
+            summary: "AI feedback temporarily unavailable.",
             strengths: [],
             missingSkills: [],
             suggestions: [],
-            careerAdvice: ""
+            careerAdvice: "",
         };
     }
 }
