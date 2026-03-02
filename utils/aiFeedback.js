@@ -1,16 +1,22 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const Groq = require("groq-sdk");
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const groq = new Groq({
+    apiKey: process.env.GROQ_API_KEY,
+});
 
 async function generateFeedback(resumeText, role) {
     try {
-        const model = genAI.getGenerativeModel({
-            model: "gemini-1.5-flash-latest",
-        });
-
-        const prompt = `
-You are an expert ATS resume analyzer.
-
+        const completion = await groq.chat.completions.create({
+            model: "llama-3.1-8b-instant", // <- valid replacement
+            temperature: 0.2,
+            messages: [
+                {
+                    role: "system",
+                    content: "You are an expert ATS resume analyzer. Return ONLY valid JSON.",
+                },
+                {
+                    role: "user",
+                    content: `
 Analyze the following resume for the role: ${role}.
 
 Return ONLY valid JSON in this exact format:
@@ -31,26 +37,24 @@ Rules:
 - CareerAdvice: career growth advice
 
 Resume:
-${resumeText.slice(0, 12000)}
-`;
+${resumeText.slice(0, 10000)}
+        `,
+                },
+            ],
+        });
 
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        const text = response.text();
+        const text = completion.choices[0].message.content;
 
-        // Extract JSON safely
         const jsonMatch = text.match(/\{[\s\S]*\}/);
 
         if (!jsonMatch) {
             throw new Error("Invalid AI response format");
         }
 
-        const parsed = JSON.parse(jsonMatch[0]);
-
-        return parsed;
+        return JSON.parse(jsonMatch[0]);
 
     } catch (error) {
-        console.error("GEMINI ERROR:", error.message);
+        console.error("GROQ ERROR:", error.message);
 
         return {
             summary: "AI feedback temporarily unavailable.",
