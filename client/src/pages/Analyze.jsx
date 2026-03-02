@@ -136,22 +136,58 @@ export default function Analyze() {
 
             {/* RESULT */}
             {result && (
-                <div className="
-          mt-10
-          max-w-xl
-          w-full
-          bg-[#111114]
-          border border-white/10
-          rounded-2xl
-          p-6
-        ">
-                    <h3 className="text-xl font-semibold mb-3">
+                <div className="mt-10 max-w-xl w-full bg-[#111114] border border-white/10 rounded-2xl p-6 space-y-4">
+
+                    <h3 className="text-xl font-semibold">
                         Match Score: {result.matchScore}%
                     </h3>
 
-                    <p className="text-gray-400">
-                        {result.aiFeedback?.summary}
-                    </p>
+                    {/* SUMMARY */}
+                    <div>
+                        <h4 className="font-semibold">Summary</h4>
+                        <p className="text-gray-400">
+                            {result.aiFeedback?.summary}
+                        </p>
+                    </div>
+
+                    {/* STRENGTHS */}
+                    <div>
+                        <h4 className="font-semibold">Strengths</h4>
+                        <ul className="list-disc list-inside text-gray-400">
+                            {result.aiFeedback?.strengths?.map((item, i) => (
+                                <li key={i}>{item}</li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    {/* MISSING SKILLS */}
+                    <div>
+                        <h4 className="font-semibold">Missing Skills</h4>
+                        <ul className="list-disc list-inside text-red-400">
+                            {result.aiFeedback?.missingSkills?.map((item, i) => (
+                                <li key={i}>{item}</li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    {/* SUGGESTIONS */}
+                    <div>
+                        <h4 className="font-semibold">Suggestions</h4>
+                        <ul className="list-disc list-inside text-yellow-400">
+                            {result.aiFeedback?.suggestions?.map((item, i) => (
+                                <li key={i}>{item}</li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    {/* CAREER ADVICE */}
+                    <div>
+                        <h4 className="font-semibold">Career Advice</h4>
+                        <p className="text-gray-400">
+                            {result.aiFeedback?.careerAdvice}
+                        </p>
+                    </div>
+
                 </div>
             )}
 
