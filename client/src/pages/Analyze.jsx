@@ -8,6 +8,11 @@ export default function Analyze() {
     const [jobRoles, setJobRoles] = useState([]);
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState(null);
+    const [search, setSearch] = useState("");
+
+    const filteredRoles = jobRoles.filter((job) =>
+        job.title.toLowerCase().includes(search.toLowerCase())
+    );
 
     useEffect(() => {
         const fetchRoles = async () => {
@@ -96,25 +101,52 @@ export default function Analyze() {
                 />
 
                 {/* Role Select */}
-                <select
-                    value={role}
-                    onChange={(e) => setRole(e.target.value)}
-                    className="
+                <div className="space-y-2">
+
+                    <input
+                        type="text"
+                        placeholder="Search job role..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="
             w-full
             p-3
             rounded-lg
             bg-[#0b0b0f]
             border border-white/10
-          "
-                >
-                    <option value="">Select Job Role</option>
+            text-sm
+        "
+                    />
 
-                    {jobRoles.map((job) => (
-                        <option key={job._id} value={job.title}>
-                            {job.title}
-                        </option>
-                    ))}
-                </select>
+                    <div className="max-h-40 overflow-y-auto border border-white/10 rounded-lg">
+
+                        {filteredRoles.map((job) => (
+                            <div
+                                key={job._id}
+                                onClick={() => {
+                                    setRole(job.title);
+                                    setSearch(job.title);
+                                }}
+                                className="
+                    px-3 py-2
+                    cursor-pointer
+                    hover:bg-white/10
+                    text-sm
+                "
+                            >
+                                {job.title}
+                            </div>
+                        ))}
+
+                    </div>
+
+                </div>
+
+                {role && (
+                    <p className="text-sm text-green-400">
+                        Selected Role: {role}
+                    </p>
+                )}
 
                 {/* Button */}
                 <button
