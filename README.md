@@ -6,97 +6,112 @@ Built using the MERN Stack with AI integration.
 
 📌 Overview
 
-This system helps users:
+This system simulates a simplified Applicant Tracking System (ATS) used by recruiters.
 
-Understand how well their resume matches a job role
+Users can:
+
+Upload their resume
+
+Analyze how well it matches a specific job role
 
 Identify missing skills
 
 Receive AI-generated professional feedback
 
-Get job recommendations based on skill matching
+Get job role recommendations based on skill matching
 
 Track resume analysis history
-
-It simulates a simplified ATS (Applicant Tracking System) with intelligent feedback.
 
 🎯 Key Features
 🔐 Authentication
 
 User Registration & Login
 
-JWT-based secure authentication
+JWT-based authentication
 
-Protected API routes
+Secure protected API routes
 
 📄 Resume Processing
 
-PDF Resume Upload
+Upload PDF resumes
 
-Text Extraction from Resume
+Automatic text extraction
 
-Automatic Skill Detection
+Intelligent skill detection
 
 📊 ATS Match Engine
 
-Role-based skill comparison
+Compare resume skills with job role requirements
 
-Match Score calculation
+Calculate ATS match score
 
-Missing Skill identification
+Identify missing skills
 
-🤖 AI Feedback
+Formula
 
-Professional Summary
+Match Score = (Matched Skills / Total Required Skills) × 100
+🤖 AI Feedback System
 
-Strengths Identification
+AI generates structured feedback including:
 
-Improvement Suggestions
+Professional summary
 
-Career Advice
+Strengths identification
+
+Resume improvement suggestions
+
+Career guidance
+
+Powered by Hugging Face Inference API
 
 💼 Job Recommendation Engine
 
-493+ IT Job Roles (Dataset-driven)
+Dataset of 493+ IT Job Roles
 
-Match percentage for each role
+Calculates match percentage for each role
 
-Sorted recommendations
+Returns top recommended job roles
+
+Recommendation Logic:
+
+Detect skills from resume
+
+Compare skills with all job roles
+
+Calculate score for each role
+
+Sort roles by highest match
+
+Return best matches
 
 📂 Dashboard
 
-Resume History
+Users can:
 
-Score tracking
+View resume analysis history
 
-Job recommendations
+Track ATS scores
+
+Explore recommended job roles
 
 🏗 System Architecture
 Frontend (React + Tailwind)
         ↓
-Backend (Node + Express)
+Backend (Node.js + Express)
         ↓
 MongoDB Database
         ↓
-AI API (Hugging Face)
-
+AI Feedback (Hugging Face API)
 Application Flow
 
-User uploads resume
-
-Backend extracts resume text
-
-Skills are detected
-
-Resume matched against job role dataset
-
-Match score calculated
-
-AI generates structured feedback
-
-Results stored in database
-
-Recommended roles returned
+1️⃣ User uploads resume
+2️⃣ Backend extracts resume text
+3️⃣ Skills are detected
+4️⃣ Resume compared with job role dataset
+5️⃣ Match score calculated
+6️⃣ AI generates structured feedback
+7️⃣ Results stored in MongoDB
+8️⃣ Recommended roles returned to user
 
 🛠 Tech Stack
 Frontend
@@ -117,7 +132,7 @@ Express.js
 
 Multer (File Upload)
 
-PDF Text Extractor
+PDF Text Extraction
 
 Database
 
@@ -129,174 +144,127 @@ AI Integration
 
 Hugging Face Inference API
 
-📊 Match Score Logic
-Formula
-Match Score = (Matched Skills / Total Required Skills) × 100
-
-Recommendation Logic
-
-Compare detected skills with all job roles
-
-Calculate score for each role
-
-Sort roles in descending order
-
-Return top matching roles
-
 🗂 Database Schema
-🧑 Users Collection
-
+Users Collection
 name
-
 email
-
 password (hashed)
-
-📄 Resumes Collection
-
+Resumes Collection
 user (ObjectId)
-
 fileName
-
 detectedSkills
-
 matchScore
-
 role
-
 missingSkills
-
 aiFeedback
-
 createdAt
-
-💼 JobRoles Collection
-
+JobRoles Collection
 title
-
 requiredSkills
-
 description
-
 level
-
 salaryRange
-
 📁 Dataset
 
 IT Job Roles Dataset (CSV)
 
-493+ roles
+Contains 493+ IT roles
 
 Imported into MongoDB
 
-Dynamic role selection in frontend
+Used for skill matching & recommendations
 
 ⚙️ Installation Guide
 1️⃣ Clone Repository
-git clone <your-repo-url>
+git clone https://github.com/your-username/ai-resume-analyzer.git
 cd ai-resume-analyzer
-
 🔧 Backend Setup
 
-Install dependencies:
+Install dependencies
 
 npm install
 
-
-Create .env file:
+Create .env file
 
 MONGO_URI=mongodb://127.0.0.1:27017/ai-resume-analyzer
 JWT_SECRET=your_secret_key
 HF_API_TOKEN=your_huggingface_token
 
-
-Run backend:
+Run backend
 
 nodemon index.js
-
 
 Server runs on:
 
 http://localhost:5000
-
 💻 Frontend Setup
 cd client
 npm install
 npm run dev
 
-
 Frontend runs on:
 
 http://localhost:5173
-
 🔐 API Endpoints
-Auth
-
+Authentication
 POST /api/auth/register
-
 POST /api/auth/login
-
-Resume
-
+Resume Analysis
 POST /api/analyze
-
 GET /api/resumes
-
-Jobs
-
+Job Roles
 GET /api/jobs
-
 GET /api/jobs/recommend
+🧪 Challenges Faced
+
+During development several technical challenges were solved:
+
+AI API model errors (Gemini → Hugging Face migration)
+
+Protected route JWT token debugging
+
+CSV dataset import path issues
+
+React state management bugs
+
+404 analyze route debugging
+
+Dataset field mapping mismatches
 
 🚀 Future Improvements
 
 Company-specific resume matching
 
-Real-time job API integration (LinkedIn / Indeed)
+Integration with LinkedIn / Indeed Job APIs
 
-Resume auto-rewrite suggestions
+AI-powered resume rewriting
 
-Skill learning roadmap generation
+Skill learning roadmap generator
 
 Admin analytics dashboard
 
-Deployment (Render / Vercel / AWS)
+Cloud deployment (AWS / Render / Vercel)
 
-🧪 Challenges Faced
-
-AI API model errors (Gemini → HF migration)
-
-Protected route token debugging
-
-CSV import path issues
-
-State management issues in React
-
-404 analyze route debugging
-
-Dataset field mapping mismatch
-
-All issues were resolved during development.
-
-💡 Real-World Use Case
+💡 Real-World Use Cases
 
 Helps students optimize resumes
 
-Saves recruiter screening time
+Reduces recruiter screening time
 
-Simulates ATS filtering
+Simulates real ATS filtering
 
-Scalable to multiple industries
-
-Can evolve into SaaS product
+Can scale into a SaaS career platform
 
 👨‍💻 Author
 
-Developed by: Your Name
-Final Year AIML Student
+Swayam Patil
+AIML Student
 MERN + AI Developer
 
-⭐ If you like this project
+⭐ Support
 
-Give it a star and share feedback!
+If you found this project helpful:
+
+⭐ Star the repository
+💬 Share feedback
+🚀 Contribute improvements
