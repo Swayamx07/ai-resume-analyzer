@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import API from "../api";
+import HeroBackground from "../components/HeroBackground";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -23,20 +24,31 @@ function Login() {
     };
 
     return (
-        <div className="relative min-h-screen flex items-center justify-center px-6">
+        <div className="relative min-h-screen flex flex-col items-center justify-center px-6 shadow-[0_0_40px_rgba(59,130,246,0.15)]">
 
-            {/* HERO TEXT */}
-            <div className="absolute top-24 text-center space-y-3">
+            <HeroBackground />
+
+            //Hero Text
+            <div className="text-center mb-10 space-y-3">
                 <h1 className="text-5xl font-semibold tracking-tight">
                     Welcome Back
                 </h1>
                 <p className="text-slate-400">
-                    Continue your AI-powered resume journey.
+                    Continue your AI-powered resume journey
                 </p>
             </div>
 
-            {/* LOGIN CARD */}
-            <div className="w-full max-w-md bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-xl">
+            //Login Card
+            <div className="
+                w-full
+                max-w-md
+                backdrop-blur-xl
+                bg-white/[0.04]
+                border border-white/10
+                rounded-2xl
+                p-8
+                shadow-2xl
+            ">
 
                 <h2 className="text-xl font-semibold mb-6 text-center">
                     Login to AI Resume
@@ -47,7 +59,16 @@ function Login() {
                     <input
                         type="email"
                         placeholder="Email"
-                        className="w-full p-3 rounded-lg bg-[#0b0b0f] border border-white/10 outline-none focus:border-blue-500 transition"
+                        className="
+                            w-full
+                            p-3
+                            rounded-lg
+                            bg-[#0b0b0f]
+                            border border-white/10
+                            outline-none
+                            focus:border-blue-500
+                            transition
+                        "
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
@@ -56,7 +77,16 @@ function Login() {
                     <input
                         type="password"
                         placeholder="Password"
-                        className="w-full p-3 rounded-lg bg-[#0b0b0f] border border-white/10 outline-none focus:border-blue-500 transition"
+                        className="
+                            w-full
+                            p-3
+                            rounded-lg
+                            bg-[#0b0b0f]
+                            border border-white/10
+                            outline-none
+                            focus:border-blue-500
+                            transition
+                        "
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
@@ -68,7 +98,15 @@ function Login() {
 
                     <button
                         type="submit"
-                        className="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-500 transition font-medium"
+                        className="
+                            w-full
+                            py-3
+                            rounded-lg
+                            bg-blue-600
+                            hover:bg-blue-500
+                            transition
+                            font-medium
+                        "
                     >
                         Login
                     </button>
@@ -81,7 +119,9 @@ function Login() {
                     </p>
 
                 </form>
+
             </div>
+
         </div>
     );
 }
