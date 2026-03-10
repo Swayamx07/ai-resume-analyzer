@@ -77,7 +77,7 @@ export default function Analyze() {
             <div className="
         mt-12
         w-full
-        max-w-xl
+        max-w-5xl
         bg-[#111114]
         border border-white/10
         rounded-2xl
@@ -168,56 +168,183 @@ export default function Analyze() {
 
             {/* RESULT */}
             {result && (
-                <div className="mt-10 max-w-xl w-full bg-[#111114] border border-white/10 rounded-2xl p-6 space-y-4">
+                <div className="mt-14 w-full max-w-5xl space-y-6">
 
-                    <h3 className="text-xl font-semibold">
-                        Match Score: {result.matchScore}%
-                    </h3>
+                    {/* SCORE CARD */}
+                    <div className="
+bg-[#111114]
+border border-white/10
+rounded-2xl
+p-10
+flex flex-col items-center
+justify-center
+transition hover:border-white/20
+">
 
-                    {/* SUMMARY */}
-                    <div>
-                        <h4 className="font-semibold">Summary</h4>
-                        <p className="text-gray-400">
-                            {result.aiFeedback?.summary}
+                        <p className="text-gray-400 text-sm">
+                            Resume Match Score
                         </p>
+
+                        <h2 className="
+text-6xl
+font-bold
+mt-3
+text-blue-500
+">
+                            {result.matchScore}%
+                        </h2>
+
+                        <div className="w-full bg-white/10 h-2 rounded-full mt-5 overflow-hidden">
+                            <div
+                                className="bg-blue-500 h-full"
+                                style={{ width: `${result.matchScore}%` }}
+                            />
+                        </div>
+
+                        <p className="text-gray-500 mt-3 text-sm">
+                            Based on role skill requirements
+                        </p>
+
                     </div>
 
-                    {/* STRENGTHS */}
-                    <div>
-                        <h4 className="font-semibold">Strengths</h4>
-                        <ul className="list-disc list-inside text-gray-400">
-                            {result.aiFeedback?.strengths?.map((item, i) => (
-                                <li key={i}>{item}</li>
-                            ))}
-                        </ul>
+
+                    {/* GRID CARDS */}
+                    <div className="grid md:grid-cols-2 gap-6">
+
+                        {/* SUMMARY */}
+                        <div className="bg-[#111114] border border-white/10 rounded-2xl p-6
+transition duration-200
+hover:border-white/20
+hover:scale-[1.01]">
+                            <h3 className="text-lg font-semibold mb-2">Summary</h3>
+                            <p className="text-gray-400 text-sm leading-relaxed">
+                                {result.aiFeedback?.summary}
+                            </p>
+                        </div>
+
+                        {/* DETECTED SKILLS */}
+                        <div className="bg-[#111114] border border-white/10 rounded-2xl p-6
+transition duration-200
+hover:border-white/20
+hover:scale-[1.01] transition hover:border-white/20">
+
+                            <h3 className="text-lg font-semibold mb-3">
+                                Detected Skills
+                            </h3>
+
+                            <div className="flex flex-wrap gap-2">
+
+                                {result.detectedSkills?.map((skill, i) => (
+                                    <span
+                                        key={i}
+                                        className="
+px-3
+py-1
+text-sm
+bg-blue-500/10
+text-blue-400
+border
+border-blue-500/20
+rounded-full
+"
+                                    >
+                                        {skill}
+                                    </span>
+                                ))}
+
+                            </div>
+                        </div>
+
+
+                        {/* CAREER ADVICE */}
+                        <div className="bg-[#111114] border border-white/10 rounded-2xl p-6
+transition duration-200
+hover:border-white/20
+hover:scale-[1.01]">
+                            <h3 className="text-lg font-semibold mb-2">Career Advice</h3>
+                            <p className="text-gray-400 text-sm leading-relaxed">
+                                {result.aiFeedback?.careerAdvice}
+                            </p>
+                        </div>
+
+
+                        {/* STRENGTHS */}
+                        <div className="bg-[#111114] border border-white/10 rounded-2xl p-6
+transition duration-200
+hover:border-white/20
+hover:scale-[1.01]">
+                            <h3 className="text-lg font-semibold mb-3">Strengths</h3>
+
+                            <div className="flex flex-wrap gap-2">
+                                {result.aiFeedback?.strengths?.map((item, i) => (
+                                    <span
+                                        key={i}
+                                        className="
+                        px-3
+                        py-1
+                        text-sm
+                        bg-green-500/10
+                        text-green-400
+                        border
+                        border-green-500/20
+                        rounded-full
+                    ">
+                                        {item}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+
+
+                        {/* MISSING SKILLS */}
+                        <div className="bg-[#111114] border border-white/10 rounded-2xl p-6
+transition duration-200
+hover:border-white/20
+hover:scale-[1.01]">
+                            <h3 className="text-lg font-semibold mb-3">Missing Skills</h3>
+
+                            <div className="flex flex-wrap gap-2">
+                                {result.aiFeedback?.missingSkills?.map((item, i) => (
+                                    <span
+                                        key={i}
+                                        className="
+                        px-3
+                        py-1
+                        text-sm
+                        bg-red-500/10
+                        text-red-400
+                        border
+                        border-red-500/20
+                        rounded-full
+                    ">
+                                        {item}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+
                     </div>
 
-                    {/* MISSING SKILLS */}
-                    <div>
-                        <h4 className="font-semibold">Missing Skills</h4>
-                        <ul className="list-disc list-inside text-red-400">
-                            {result.aiFeedback?.missingSkills?.map((item, i) => (
-                                <li key={i}>{item}</li>
-                            ))}
-                        </ul>
-                    </div>
 
                     {/* SUGGESTIONS */}
-                    <div>
-                        <h4 className="font-semibold">Suggestions</h4>
-                        <ul className="list-disc list-inside text-yellow-400">
+                    <div className="bg-[#111114] border border-white/10 rounded-2xl p-6
+transition duration-200
+hover:border-white/20
+hover:scale-[1.01]">
+
+                        <h3 className="text-lg font-semibold mb-3">
+                            Suggestions to Improve Resume
+                        </h3>
+
+                        <ul className="space-y-2 text-yellow-400 text-sm">
                             {result.aiFeedback?.suggestions?.map((item, i) => (
-                                <li key={i}>{item}</li>
+                                <li key={i} className="flex gap-2">
+                                    <span className="text-yellow-400">•</span>
+                                    <span>{item}</span>
+                                </li>
                             ))}
                         </ul>
-                    </div>
 
-                    {/* CAREER ADVICE */}
-                    <div>
-                        <h4 className="font-semibold">Career Advice</h4>
-                        <p className="text-gray-400">
-                            {result.aiFeedback?.careerAdvice}
-                        </p>
                     </div>
 
                 </div>
