@@ -28,7 +28,7 @@ function Login() {
 
             <HeroBackground />
 
-            //Hero Text
+            {/*Hero Text*/}
             <div className="text-center mb-10 space-y-3">
                 <h1 className="text-5xl font-semibold tracking-tight">
                     Welcome Back
@@ -38,7 +38,7 @@ function Login() {
                 </p>
             </div>
 
-            //Login Card
+            {/*Login Card*/}
             <div className="
                 w-full
                 max-w-md
