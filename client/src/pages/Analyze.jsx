@@ -222,7 +222,6 @@ hover:scale-[1.01]">
                             </p>
                         </div>
 
-                        {/* DETECTED SKILLS */}
                         <div className="bg-[#111114] border border-white/10 rounded-2xl p-6
 transition duration-200
 hover:border-white/20
@@ -253,6 +252,37 @@ rounded-full
                                 ))}
 
                             </div>
+                        </div>
+
+                        <div className="
+bg-[#111114]
+border border-white/10
+rounded-2xl
+p-6
+transition hover:border-white/20
+">
+
+                            <h3 className="text-lg font-semibold mb-3">
+                                Resume Structure Score
+                            </h3>
+
+                            <p className="text-3xl font-bold text-purple-400 mb-4">
+                                {result.structureScore}%
+                            </p>
+
+                            <div className="space-y-2 text-sm">
+
+                                {Object.entries(result.sectionDetails || {}).map(([key, value]) => (
+                                    <div key={key} className="flex justify-between">
+                                        <span className="capitalize">{key}</span>
+                                        <span className={value ? "text-green-400" : "text-red-400"}>
+                                            {value ? "✔" : "⚠"}
+                                        </span>
+                                    </div>
+                                ))}
+
+                            </div>
+
                         </div>
 
 
