@@ -8,6 +8,8 @@ const extractTextFromPDF = require("./utils/pdfParser");
 const extractSkillsFromText = require("./utils/skillExtractor");
 const calculateScore = require("./utils/calculateScore");
 const generateFeedback = require("./utils/aiFeedback");
+const analyzeSections = require("./utils/resumeSectionAnalyzer");
+const axios = require("axios");
 
 const Resume = require("./models/Resume");
 const JobRole = require("./models/JobRole");
@@ -60,6 +62,17 @@ app.post(
 
             const result = calculateScore(resumeSkills, selectedRole);
 
+            const sectionAnalysis = analyzeSections(resumeText);
+            try {
+                await axios.post("http://localhost:5678/webhook/job-search", {
+                    skills: resumeSkills,
+                    role: role,
+                    user: req.user
+                });
+            } catch (error) {
+                console.log("n8n trigger failed:", error.message);
+            }
+
             let aiFeedback = null;
             try {
                 aiFeedback = await generateFeedback(resumeText, role);
@@ -75,9 +88,18 @@ app.post(
                 role,
                 missingSkills: result.missingSkills,
                 aiFeedback,
+                structureScore: sectionAnalysis.structureScore,
+                sectionDetails: sectionAnalysis.sections
             });
 
-            res.json(saved);
+            res.json({
+                matchScore: result.matchScore,
+                detectedSkills: resumeSkills,
+                missingSkills: result.missingSkills,
+                aiFeedback,
+                structureScore: sectionAnalysis.structureScore,
+                sectionDetails: sectionAnalysis.sections
+            });
         } catch (error) {
             console.log("ANALYZE ERROR:", error);
             res.status(500).json({ message: "Resume analysis failed" });
