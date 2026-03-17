@@ -1,270 +1,369 @@
-🚀 AI Resume Analyzer & Job Recommendation System
+# 🚀 AI Resume Analyzer & Real-Time Job Recommendation Platform
 
-An AI-powered full-stack web application that analyzes resumes, calculates ATS-style match scores, detects skill gaps, and recommends suitable job roles using a real-world dataset.
+An **AI-powered full-stack career intelligence platform** that analyzes resumes, simulates ATS scoring, detects skill gaps, generates professional AI feedback, and recommends real-world job opportunities using workflow automation.
 
-Built using the MERN Stack with AI integration.
+Built with **MERN Stack + AI + Workflow Automation (n8n)**.
 
-📌 Overview
+---
 
-This system simulates a simplified Applicant Tracking System (ATS) used by recruiters.
+## 🌍 Overview
+
+This platform simulates a **modern Applicant Tracking System (ATS)** used by recruiters and enhances it with **AI intelligence and real-time job discovery automation**.
 
 Users can:
 
-Upload their resume
+* Upload resumes (PDF)
+* Get ATS-style match score for a specific job role
+* Detect existing & missing skills
+* Receive structured AI feedback
+* Get **real-world job recommendations automatically**
+* Track resume analysis history via dashboard
 
-Analyze how well it matches a specific job role
+---
 
-Identify missing skills
+## 🎯 Key Features
 
-Receive AI-generated professional feedback
+### 🔐 Authentication & Security
 
-Get job role recommendations based on skill matching
+* JWT-based authentication
+* Protected API routes
+* Secure resume storage & analysis history
+* Session-based user data isolation
 
-Track resume analysis history
+---
 
-🎯 Key Features
-🔐 Authentication
+### 📄 Resume Processing Engine
 
-User Registration & Login
+* PDF upload via Multer
+* Automated resume text extraction
+* Intelligent skill detection system
+* Skill normalization using custom skill mapping
 
-JWT-based authentication
+---
 
-Secure protected API routes
+### 📊 ATS Match Scoring System
 
-📄 Resume Processing
+Simulates recruiter screening logic.
 
-Upload PDF resumes
+**Formula**
 
-Automatic text extraction
-
-Intelligent skill detection
-
-📊 ATS Match Engine
-
-Compare resume skills with job role requirements
-
-Calculate ATS match score
-
-Identify missing skills
-
-Formula
-
+```
 Match Score = (Matched Skills / Total Required Skills) × 100
-🤖 AI Feedback System
+```
 
-AI generates structured feedback including:
+Capabilities:
 
-Professional summary
+* Skill-to-role comparison
+* Missing skill detection
+* Match scoring visualization
+* Resume structure scoring
 
-Strengths identification
+---
 
-Resume improvement suggestions
+### 🤖 AI Resume Feedback System
 
-Career guidance
+Generates structured professional insights:
 
-Powered by Hugging Face Inference API
+* Resume Summary
+* Strengths Identification
+* Missing Skills Suggestions
+* Resume Improvement Actions
+* Career Growth Advice
 
-💼 Job Recommendation Engine
+Powered by **LLM inference (Groq / Open Source Models)**.
 
-Dataset of 493+ IT Job Roles
+---
 
-Calculates match percentage for each role
+### 💼 Real-Time Job Recommendation Engine
 
-Returns top recommended job roles
+This is the **core advanced feature**.
 
-Recommendation Logic:
+Instead of static dataset recommendations:
 
-Detect skills from resume
+* Resume skills are sent to **n8n automation workflow**
+* Workflow fetches real jobs from public job APIs
+* Jobs are filtered based on skill relevance
+* Top matching jobs are returned to backend
+* Displayed instantly in UI
 
-Compare skills with all job roles
+**Pipeline Logic**
 
-Calculate score for each role
+```
+Resume → Skill Extraction → Automation Webhook →
+External Job API → Filtering Engine →
+Recommended Jobs → UI Rendering
+```
 
-Sort roles by highest match
+---
 
-Return best matches
+### ⚙️ Workflow Automation (n8n Integration)
 
-📂 Dashboard
+* Webhook-based automation trigger
+* HTTP job API fetch node
+* JavaScript filtering node
+* Production & Test webhook modes
+* Enables scalable automation features like:
+
+Future Automation Ideas:
+
+* Daily job alerts
+* Email notifications
+* Skill learning roadmap automation
+* Application tracking
+
+---
+
+### 📂 Dashboard & Analytics
 
 Users can:
 
-View resume analysis history
+* View resume analysis history
+* Track ATS score trends
+* Explore past recommended jobs
+* Monitor skill improvement
 
-Track ATS scores
+---
 
-Explore recommended job roles
+## 🏗 System Architecture
 
-🏗 System Architecture
-Frontend (React + Tailwind)
+```
+React + Tailwind Frontend
         ↓
-Backend (Node.js + Express)
+Node.js / Express Backend
         ↓
 MongoDB Database
         ↓
-AI Feedback (Hugging Face API)
-Application Flow
+AI Feedback Engine (LLM API)
+        ↓
+Workflow Automation (n8n)
+        ↓
+External Job APIs
+```
+
+---
+
+## 🔄 Application Flow
 
 1️⃣ User uploads resume
-2️⃣ Backend extracts resume text
+2️⃣ Backend extracts text
 3️⃣ Skills are detected
-4️⃣ Resume compared with job role dataset
-5️⃣ Match score calculated
-6️⃣ AI generates structured feedback
-7️⃣ Results stored in MongoDB
-8️⃣ Recommended roles returned to user
+4️⃣ ATS score calculated
+5️⃣ AI feedback generated
+6️⃣ Resume stored in MongoDB
+7️⃣ Skills sent to n8n webhook
+8️⃣ Automation fetches real job listings
+9️⃣ Matching jobs returned to backend
+🔟 Jobs displayed in frontend
 
-🛠 Tech Stack
-Frontend
+---
 
-React.js
+## 🛠 Tech Stack
 
-Tailwind CSS
+### Frontend
 
-Axios
+* React.js
+* Tailwind CSS
+* Axios
+* React Router
 
-React Router
+### Backend
 
-Backend
+* Node.js
+* Express.js
+* Multer (File Upload)
+* PDF Parsing
 
-Node.js
+### Database
 
-Express.js
+* MongoDB
+* Mongoose
 
-Multer (File Upload)
+### AI
 
-PDF Text Extraction
+* Groq LLM API / Open Source Models
 
-Database
+### Automation
 
-MongoDB
+* n8n Workflow Engine
+* Webhook Triggers
+* External Job APIs
 
-Mongoose
+---
 
-AI Integration
+## 🗂 Database Schema
 
-Hugging Face Inference API
+### Users
 
-🗂 Database Schema
-Users Collection
-name
-email
-password (hashed)
-Resumes Collection
-user (ObjectId)
-fileName
-detectedSkills
-matchScore
-role
-missingSkills
-aiFeedback
-createdAt
-JobRoles Collection
-title
-requiredSkills
-description
-level
-salaryRange
-📁 Dataset
+* name
+* email
+* password (hashed)
 
-IT Job Roles Dataset (CSV)
+### Resumes
 
-Contains 493+ IT roles
+* user
+* fileName
+* detectedSkills
+* matchScore
+* structureScore
+* missingSkills
+* aiFeedback
+* recommendedJobs
+* createdAt
 
-Imported into MongoDB
+### JobRoles
 
-Used for skill matching & recommendations
+* title
+* requiredSkills
+* description
+* level
+* salaryRange
 
-⚙️ Installation Guide
-1️⃣ Clone Repository
+---
+
+## ⚙️ Installation
+
+### Clone Repository
+
+```
 git clone https://github.com/your-username/ai-resume-analyzer.git
 cd ai-resume-analyzer
-🔧 Backend Setup
+```
 
-Install dependencies
+---
 
+### Backend Setup
+
+```
 npm install
+```
 
-Create .env file
+Create `.env`
 
+```
 MONGO_URI=mongodb://127.0.0.1:27017/ai-resume-analyzer
-JWT_SECRET=your_secret_key
-HF_API_TOKEN=your_huggingface_token
+JWT_SECRET=your_secret
+GROQ_API_KEY=your_key
+```
 
 Run backend
 
+```
 nodemon index.js
+```
 
-Server runs on:
+Server:
 
+```
 http://localhost:5000
-💻 Frontend Setup
+```
+
+---
+
+### Frontend Setup
+
+```
 cd client
 npm install
 npm run dev
+```
 
-Frontend runs on:
+Frontend:
 
+```
 http://localhost:5173
-🔐 API Endpoints
-Authentication
-POST /api/auth/register
-POST /api/auth/login
-Resume Analysis
-POST /api/analyze
-GET /api/resumes
-Job Roles
-GET /api/jobs
-GET /api/jobs/recommend
-🧪 Challenges Faced
+```
 
-During development several technical challenges were solved:
+---
 
-AI API model errors (Gemini → Hugging Face migration)
+### Automation Setup (n8n)
 
-Protected route JWT token debugging
+Run locally:
 
-CSV dataset import path issues
+```
+npx n8n
+```
 
-React state management bugs
+Create workflow:
 
-404 analyze route debugging
+* Webhook Node
+* HTTP Request Node (Job API)
+* Code Node (Skill Filtering)
 
-Dataset field mapping mismatches
+Activate workflow.
 
-🚀 Future Improvements
+Production webhook:
 
-Company-specific resume matching
+```
+http://localhost:5678/webhook/job-search
+```
 
-Integration with LinkedIn / Indeed Job APIs
+---
 
-AI-powered resume rewriting
+## 🔐 API Endpoints
 
-Skill learning roadmap generator
+### Authentication
 
-Admin analytics dashboard
+* `POST /api/auth/register`
+* `POST /api/auth/login`
 
-Cloud deployment (AWS / Render / Vercel)
+### Resume
 
-💡 Real-World Use Cases
+* `POST /api/analyze`
+* `GET /api/resumes`
 
-Helps students optimize resumes
+### Job Roles
 
-Reduces recruiter screening time
+* `GET /api/jobs`
 
-Simulates real ATS filtering
+---
 
-Can scale into a SaaS career platform
+## 🧪 Challenges Solved
 
-👨‍💻 Author
+* ATS scoring consistency issues
+* Resume skill extraction accuracy
+* AI JSON response parsing
+* JWT protected route debugging
+* Workflow webhook test vs production mode confusion
+* Job API SSL & filtering problems
+* Frontend async state rendering bugs
 
-Swayam Patil
+---
+
+## 🚀 Future Improvements
+
+* Semantic skill matching (vector embeddings)
+* Resume rewriting with AI
+* Job match percentage visualization
+* Email job alerts automation
+* Redis job cache layer
+* Cloud deployment (AWS / Render / Vercel)
+* SaaS subscription model
+
+---
+
+## 💡 Real-World Impact
+
+* Helps students optimize resumes
+* Simulates recruiter ATS filtering
+* Provides real job opportunities
+* Can scale into full career SaaS platform
+
+---
+
+## 👨‍💻 Author
+
+**Swayam Patil**
 AIML Student
-MERN + AI Developer
+MERN + AI + Automation Developer
 
-⭐ Support
+---
 
-If you found this project helpful:
+## ⭐ Support
+
+If this project helped you:
 
 ⭐ Star the repository
 💬 Share feedback
 🚀 Contribute improvements
+
+---
