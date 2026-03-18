@@ -17,6 +17,7 @@ const protect = require("./middleware/authMiddleware");
 
 const authRoutes = require("./routes/authRoutes");
 const jobRoutes = require("./routes/jobRoutes");
+const recommendationRoutes = require("./routes/recommendationRoutes");
 
 const app = express();
 const PORT = 5000;
@@ -29,6 +30,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobRoutes);
+app.use("/api/recommendations", recommendationRoutes);
 
 app.get("/api/test", (req, res) => {
     res.send("TEST WORKING");
@@ -63,14 +65,22 @@ app.post(
             const result = calculateScore(resumeSkills, selectedRole);
 
             const sectionAnalysis = analyzeSections(resumeText);
+            let recommendedJobs = [];
+
             try {
-                await axios.post("http://localhost:5678/webhook/job-search", {
-                    skills: resumeSkills,
-                    role: role,
-                    user: req.user
-                });
+                const jobRes = await axios.post(
+                    "http://localhost:5678/webhook/job-search",
+                    {
+                        skills: resumeSkills,
+                        role: role,
+                        user: req.user
+                    }
+                );
+
+                recommendedJobs = jobRes.data.jobs || [];
+
             } catch (error) {
-                console.log("n8n trigger failed:", error.message);
+                console.log("n8n job fetch failed:", error.message);
             }
 
             let aiFeedback = null;
@@ -89,16 +99,17 @@ app.post(
                 missingSkills: result.missingSkills,
                 aiFeedback,
                 structureScore: sectionAnalysis.structureScore,
-                sectionDetails: sectionAnalysis.sections
+                sectionDetails: sectionAnalysis.sections,
+                recommendedJobs
             });
-
             res.json({
                 matchScore: result.matchScore,
                 detectedSkills: resumeSkills,
                 missingSkills: result.missingSkills,
                 aiFeedback,
                 structureScore: sectionAnalysis.structureScore,
-                sectionDetails: sectionAnalysis.sections
+                sectionDetails: sectionAnalysis.sections,
+                recommendedJobs
             });
         } catch (error) {
             console.log("ANALYZE ERROR:", error);
