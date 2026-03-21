@@ -8,7 +8,7 @@ export default function Jobs() {
     useEffect(() => {
         const fetchJobs = async () => {
             try {
-                const res = await API.get("/recommendations");
+                const res = await API.get("/jobs/recommend");
                 setJobs(res.data.jobs);
             } catch (err) {
                 console.log(err);
@@ -34,44 +34,28 @@ export default function Jobs() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 
                 {jobs.map((job, i) => (
-                    <div
-                        key={i}
-                        className="
-                        bg-[#111114]
-                        border border-white/10
-                        rounded-2xl
-                        p-6
-                        transition
-                        hover:border-blue-500/40
-                        hover:scale-[1.02]
-                    "
-                    >
+                    <div key={i} className="bg-[#111114] border border-white/10 rounded-2xl p-6">
+
                         <h2 className="text-lg font-semibold mb-2">
                             {job.title}
                         </h2>
 
-                        <p className="text-sm text-gray-400 mb-3">
-                            {job.company_name}
+                        <p className="text-sm text-gray-400 mb-2">
+                            Match Score: {job.score}%
                         </p>
 
-                        <p className="text-xs text-gray-500 mb-4 line-clamp-4">
+                        <div className="flex flex-wrap gap-2 mb-3">
+                            {job.matchedSkills.map((s, idx) => (
+                                <span key={idx} className="px-2 py-1 text-xs bg-green-500/10 text-green-400 rounded-full">
+                                    {s}
+                                </span>
+                            ))}
+                        </div>
+
+                        <p className="text-xs text-gray-500">
                             {job.description}
                         </p>
 
-                        <a
-                            href={job.url}
-                            target="_blank"
-                            className="
-                            inline-block
-                            px-4 py-2
-                            bg-blue-600
-                            rounded-lg
-                            text-sm
-                            hover:bg-blue-500
-                        "
-                        >
-                            Apply Now
-                        </a>
                     </div>
                 ))}
             </div>

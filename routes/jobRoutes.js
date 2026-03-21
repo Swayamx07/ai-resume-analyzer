@@ -29,7 +29,7 @@ router.get("/recommend", protect, async (req, res) => {
 
         // 3️ Pass detectedSkills to recommendation engine
         const jobs = await recommendJobs(latestResume.detectedSkills);
-        res.json(jobs);
+        res.json({ jobs });
 
     } catch (error) {
         console.error("Job recommendation error:", error);

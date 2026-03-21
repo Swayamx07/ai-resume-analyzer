@@ -1,15 +1,19 @@
 const skillsMap = require("../data/skillsMap");
 
 function extractSkillsFromText(text) {
-    const detectedSkills = new Set();
+    const detected = new Set();
+
+    const normalized = text.toLowerCase();
 
     for (let key in skillsMap) {
-        if (text.includes(key)) {
-            detectedSkills.add(skillsMap[key]);
+        const regex = new RegExp(`\\b${key}\\b`, "i");
+
+        if (regex.test(normalized)) {
+            detected.add(skillsMap[key]);
         }
     }
 
-    return Array.from(detectedSkills);
+    return Array.from(detected);
 }
 
 module.exports = extractSkillsFromText;
