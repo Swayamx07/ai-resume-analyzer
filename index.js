@@ -11,6 +11,7 @@ const generateFeedback = require("./utils/aiFeedback");
 const analyzeSections = require("./utils/resumeSectionAnalyzer");
 const axios = require("axios");
 
+
 const Resume = require("./models/Resume");
 const JobRole = require("./models/JobRole");
 const protect = require("./middleware/authMiddleware");
@@ -18,6 +19,7 @@ const protect = require("./middleware/authMiddleware");
 const authRoutes = require("./routes/authRoutes");
 const jobRoutes = require("./routes/jobRoutes");
 const recommendationRoutes = require("./routes/recommendationRoutes");
+const jobFetcher = require("./routes/jobFetcher");
 
 const app = express();
 const PORT = 5000;
@@ -27,7 +29,7 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
-
+app.use("/api/jobs", jobFetcher);
 app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/recommendations", recommendationRoutes);
