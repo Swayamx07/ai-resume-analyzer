@@ -29,9 +29,9 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/jobs", jobFetcher);
 app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobRoutes);
+app.use("/api/jobs", jobFetcher);
 app.use("/api/recommendations", recommendationRoutes);
 
 app.get("/api/test", (req, res) => {

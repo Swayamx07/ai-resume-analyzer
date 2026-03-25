@@ -1,9 +1,8 @@
 const express = require("express");
-const axios = require("axios");
-const Resume = require("../models/Resume");
-const protect = require("../middleware/authMiddleware");
-
 const router = express.Router();
+const protect = require("../middleware/authMiddleware");
+const Resume = require("../models/Resume");
+const axios = require("axios");
 
 router.get("/real", protect, async (req, res) => {
     try {
@@ -14,8 +13,8 @@ router.get("/real", protect, async (req, res) => {
             return res.json({ jobs: [] });
         }
 
-        const skills = latest.skills.join(" ");
-        const location = latest.location || "India";
+        const skills = latest.detectedSkills.join(" ");
+        const location = "India";
 
         const url = `https://api.adzuna.com/v1/api/jobs/in/search/1?app_id=${process.env.ADZUNA_ID}&app_key=${process.env.ADZUNA_KEY}&what=${skills}&where=${location}`;
 
@@ -25,7 +24,6 @@ router.get("/real", protect, async (req, res) => {
             title: job.title,
             company: job.company.display_name,
             location: job.location.display_name,
-            salary: job.salary_is_predicted ? "Predicted" : "Not Mentioned",
             link: job.redirect_url
         }));
 
