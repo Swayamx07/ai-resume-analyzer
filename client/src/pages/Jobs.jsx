@@ -1,17 +1,21 @@
+import JobCard from "../components/JobCard";
 import { useEffect, useState } from "react";
 import API from "../api";
 
 export default function Jobs() {
+
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
     useEffect(() => {
         const fetchJobs = async () => {
             try {
-                const res = await API.get("/jobs/recommend");
+                const res = await API.get("/jobs/real");
                 setJobs(res.data.jobs);
             } catch (err) {
                 console.log(err);
+                setError("Failed to load jobs");
             }
             setLoading(false);
         };
@@ -19,46 +23,41 @@ export default function Jobs() {
         fetchJobs();
     }, []);
 
-    if (loading) return <p className="p-6">Loading jobs...</p>;
-
     return (
-        <div className="p-8 space-y-6">
-            <h1 className="text-3xl font-semibold">Job Recommendations</h1>
+        <div className="p-6 md:p-10 max-w-6xl mx-auto">
 
-            {jobs.length === 0 && (
-                <p className="text-gray-400">
-                    Analyze a resume first to get job recommendations.
+            <h1 className="text-3xl font-semibold mb-6">
+                Recommended Jobs
+            </h1>
+
+            {/* LOADING */}
+            {loading && (
+                <p className="text-gray-400 animate-pulse">
+                    Fetching real jobs for you...
                 </p>
             )}
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* ERROR */}
+            {error && (
+                <p className="text-red-400">{error}</p>
+            )}
 
-                {jobs.map((job, i) => (
-                    <div key={i} className="bg-[#111114] border border-white/10 rounded-2xl p-6">
+            {/* EMPTY */}
+            {!loading && jobs.length === 0 && (
+                <p className="text-gray-500">
+                    No jobs found. Try improving your resume skills.
+                </p>
+            )}
 
-                        <h2 className="text-lg font-semibold mb-2">
-                            {job.title}
-                        </h2>
+            {/* JOBS GRID */}
+            <div className="grid md:grid-cols-2 gap-6 mt-6">
 
-                        <p className="text-sm text-gray-400 mb-2">
-                            Match Score: {job.score}%
-                        </p>
-
-                        <div className="flex flex-wrap gap-2 mb-3">
-                            {job.matchedSkills.map((s, idx) => (
-                                <span key={idx} className="px-2 py-1 text-xs bg-green-500/10 text-green-400 rounded-full">
-                                    {s}
-                                </span>
-                            ))}
-                        </div>
-
-                        <p className="text-xs text-gray-500">
-                            {job.description}
-                        </p>
-
-                    </div>
+                {jobs.map((job, index) => (
+                    <JobCard key={index} job={job} />
                 ))}
+
             </div>
+
         </div>
     );
 }
