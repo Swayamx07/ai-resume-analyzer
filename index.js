@@ -20,6 +20,7 @@ const authRoutes = require("./routes/authRoutes");
 const jobRoutes = require("./routes/jobRoutes");
 const recommendationRoutes = require("./routes/recommendationRoutes");
 const jobFetcher = require("./routes/jobFetcher");
+const savedJobsRoutes = require("./routes/savedJobs");
 
 const app = express();
 const PORT = 5000;
@@ -29,6 +30,7 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
+app.use("/api/saved-jobs", savedJobsRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/jobs", jobFetcher);
