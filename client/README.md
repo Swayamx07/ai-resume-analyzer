@@ -1,195 +1,162 @@
-🤖 AI Resume Analyzer — Intelligent Resume Scoring Platform
+# 🚀 AI Resume Analyzer + Job Recommender
 
-An AI-driven full-stack platform that analyzes resumes, evaluates job-role compatibility, and generates structured career insights through an interactive analytics dashboard.
+A full-stack MERN application that analyzes resumes using AI, calculates ATS match scores, and fetches real job opportunities based on user skills — with job bookmarking support.
 
-The system is designed with production-style architecture principles, combining secure authentication, scalable backend services, real-time analytics visualization, and a modern SaaS-grade UI experience.
+---
 
-🌐 Live Product Vision
+## ✨ Features
 
-AI Resume Analyzer aims to function as a career intelligence layer between candidates and job roles.
+### 🧠 AI Resume Analysis
 
-Instead of static resume parsing, the platform focuses on:
+* Upload resume (PDF)
+* Extracts text and detects skills
+* Calculates ATS match score
+* Identifies missing skills
+* Provides AI-based feedback and career advice
 
-Resume → Skill extraction → Role mapping → Score computation → Insight generation
+### 💼 Real Job Fetcher
 
-Continuous analytics tracking for user improvement
+* Fetches live jobs using Adzuna API
+* Matches jobs based on resume skills
+* Displays structured job listings in dashboard
 
-Data-driven feedback loops
+### ⭐ Job Bookmarking System
 
-This enables users to understand profile strength over time, not just receive one-time analysis.
+* Save jobs for later
+* View saved jobs (user-specific)
+* Remove saved jobs
 
-🚀 Key Capabilities
-📄 Resume Intelligence Engine
+### 🔐 Authentication
 
-PDF resume ingestion pipeline
+* JWT-based login/register
+* Protected routes for secure access
 
-Text extraction & normalization
+---
 
-Skill identification and role mapping
+## 🏗️ Tech Stack
 
-Job-match score computation model
+### Frontend
 
-Structured AI feedback summary generation
+* React.js
+* Tailwind CSS
+* Framer Motion
 
-📊 Analytics & Insight Dashboard
+### Backend
 
-Resume analysis history persistence
+* Node.js
+* Express.js
+* MongoDB + Mongoose
 
-Score trend visualization
+### APIs & Tools
 
-Role recommendation signals
+* Adzuna Job API
+* PDF Parser
+* AI Feedback Engine
 
-Interactive chart rendering using Recharts
+---
 
-Dashboard information hierarchy for fast decision making
+## 📂 Project Structure
 
-🎨 SaaS-Grade Product Experience
-
-Glassmorphism design system
-
-Unified dark AI theme with gradient glow background
-
-Motion-driven navigation using Framer Motion
-
-Component-level design consistency
-
-Fully responsive dashboard layout
-
-🔐 Authentication & Security
-
-JWT-based authentication architecture
-
-Protected client routes
-
-Secure session lifecycle handling
-
-Backend middleware validation
-
-🧠 System Architecture Overview
-
-The platform follows a decoupled client-server architecture.
-
-User → React Frontend → Express API Layer → AI Processing Pipeline → MongoDB
-Flow
-
-User uploads resume
-
-Backend parses PDF and extracts raw text
-
-Skill extraction module identifies relevant entities
-
-Scoring engine computes job compatibility
-
-Feedback generator produces structured insights
-
-Result is persisted and visualized on dashboard
-
-⚙️ Technology Stack
-Frontend
-
-React.js (Component architecture)
-
-Vite (Build tooling)
-
-Tailwind CSS v4 (Utility-first styling system)
-
-Framer Motion (UI transition orchestration)
-
-Recharts (Analytics visualization)
-
-React Router DOM (Client routing)
-
-Backend
-
-Node.js (Runtime)
-
-Express.js (API layer)
-
-MongoDB (Document database)
-
-JWT (Authentication protocol)
-
-Multer (Resume upload handling)
-
-📂 Repository Structure
-ai-resume-analyzer/
-
+```bash
 client/
- ├── components/
- ├── pages/
- ├── App.jsx
- └── main.jsx
+  src/
+    components/
+    pages/
+    api.js
 
 server/
- ├── config/
- ├── models/
- ├── routes/
- ├── utils/
- └── index.js
+  routes/
+  models/
+  middleware/
+  utils/
+```
 
-The structure emphasizes:
+---
 
-Separation of concerns
+## ⚙️ Setup Instructions
 
-Modular utility layer for AI processing
+### 1. Clone Repository
 
-Reusable dashboard components
+```bash
+git clone https://github.com/your-username/your-repo.git
+cd your-repo
+```
 
-Scalable routing architecture
+---
 
-🧪 Engineering Considerations
+### 2. Backend Setup
 
-Stateless authentication for horizontal scalability
-
-Resume analysis persistence for analytics modeling
-
-Utility-driven AI pipeline for extensibility
-
-Component-based UI to support feature scaling
-
-Chart-driven feedback visualization for cognitive clarity
-
-📈 Future Roadmap
-
-Semantic resume scoring using embeddings
-
-Skill gap detection engine
-
-Resume comparison analytics
-
-Interview readiness predictor
-
-Job description real-time parsing
-
-Exportable PDF reports
-
-Rate limiting & production security hardening
-
-Microservice migration for AI processing layer
-
-💻 Local Development
-git clone https://github.com/YOUR_USERNAME/ai-resume-analyzer.git
-cd ai-resume-analyzer
-Install Dependencies
-
-Frontend
-
-cd client
-npm install
-npm run dev
-
-Backend
-
+```bash
 cd server
 npm install
-npm run dev
-Environment Variables
-MONGO_URI=
-JWT_SECRET=
+```
+
+Create `.env` file:
+
+```env
 PORT=5000
-👨‍💻 Author
+MONGO_URI=your_mongodb_uri
+JWT_SECRET=your_secret
+ADZUNA_ID=your_id
+ADZUNA_KEY=your_key
+```
+
+Run server:
+
+```bash
+npm run dev
+```
+
+---
+
+### 3. Frontend Setup
+
+```bash
+cd client
+npm install
+npm start
+```
+
+---
+
+## 🔑 API Endpoints
+
+### Auth
+
+* `POST /api/auth/login`
+* `POST /api/auth/register`
+
+### Resume
+
+* `POST /api/analyze`
+* `GET /api/resumes`
+
+### Jobs
+
+* `GET /api/jobs/real`
+
+### Saved Jobs
+
+* `POST /api/saved-jobs`
+* `GET /api/saved-jobs`
+* `DELETE /api/saved-jobs/:id`
+
+---
+
+## 🚀 Future Improvements
+
+* Job match score per listing
+* Saved jobs dashboard UI
+* Filters (location, role)
+* Pagination for job results
+* Email job alerts
+
+---
+
+## 📌 Author
 
 Swayam Patil
-Artificial Intelligence & Machine Learning Student
-Full Stack Developer
-Building intelligent SaaS systems
+
+---
+
+## ⭐ If you like this project, give it a star!
