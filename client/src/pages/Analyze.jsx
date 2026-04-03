@@ -50,12 +50,11 @@ export default function Analyze() {
 
     return (
         <div className="relative min-h-screen flex flex-col items-center px-6 pb-20">
-
             <HeroBackground />
 
             {/* HERO */}
             <div className="text-center max-w-4xl space-y-6 mt-20">
-                <h1 className="text-5xl md:text-7xl font-semibold tracking-tight">
+                <h1 className="text-5xl md:text-7xlfont-semibold tracking-tight">
                     Analyze your Resume
                     <br />
                     <span className="text-gray-400">

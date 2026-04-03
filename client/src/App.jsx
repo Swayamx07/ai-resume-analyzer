@@ -29,23 +29,14 @@ function AppRoutes() {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
 
+        {/* Redirect */}
         <Route path="/" element={<Navigate to="/login" replace />} />
 
         {/* PUBLIC */}
         <Route path="/login" element={<PageWrapper><Login /></PageWrapper>} />
         <Route path="/register" element={<PageWrapper><Register /></PageWrapper>} />
 
-        {/* ANALYZE */}
-        <Route
-          path="/analyze"
-          element={
-            <ProtectedRoute>
-              <PageWrapper><Analyze /></PageWrapper>
-            </ProtectedRoute>
-          }
-        />
-
-        {/* DASHBOARD */}
+        {/* DASHBOARD (Protected Layout) */}
         <Route
           element={
             <ProtectedRoute>
@@ -57,9 +48,15 @@ function AppRoutes() {
             path="/dashboard"
             element={<PageWrapper><DashboardHome /></PageWrapper>}
           />
+
           <Route
             path="/jobs"
             element={<PageWrapper><Jobs /></PageWrapper>}
+          />
+
+          <Route
+            path="/analyze"
+            element={<PageWrapper><Analyze /></PageWrapper>}
           />
         </Route>
 
