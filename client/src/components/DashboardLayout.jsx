@@ -1,7 +1,6 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, NavLink } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import { Link } from "react-router-dom";
-
+import { LayoutDashboard, FileText, Briefcase } from "lucide-react";
 
 function DashboardLayout() {
     const navigate = useNavigate();
@@ -22,30 +21,38 @@ function DashboardLayout() {
     return (
         <div className="relative flex min-h-screen text-slate-200 bg-[#020617] overflow-hidden">
 
-
             {/* Sidebar */}
-            <aside className="relative z-10 w-64 bg-white/[0.03] backdrop-blur-xl border-r border-white/10 p-6 hidden md:block">
+            <aside className="w-64 bg-white/[0.03] backdrop-blur-xl border-r border-white/10 p-6 hidden md:flex flex-col">
+
                 <h2 className="text-xl font-bold text-blue-400 mb-10">
                     AI Resume
                 </h2>
 
-                <nav className="space-y-5 text-sm">
-                    <Link to="/dashboard" className="block hover:text-blue-400 transition">
-                        Dashboard
-                    </Link>
+                <nav className="flex flex-col gap-2 text-sm">
 
-                    <Link to="/analyze" className="block hover:text-blue-400 transition">
-                        Analyze
-                    </Link>
+                    <NavItem
+                        to="/dashboard"
+                        icon={<LayoutDashboard size={18} />}
+                        label="Dashboard"
+                    />
 
-                    <Link to="/jobs" className="block hover:text-blue-400 transition">
-                        Jobs
-                    </Link>
+                    <NavItem
+                        to="/analyze"
+                        icon={<FileText size={18} />}
+                        label="Analyze"
+                    />
+
+                    <NavItem
+                        to="/jobs"
+                        icon={<Briefcase size={18} />}
+                        label="Jobs"
+                    />
+
                 </nav>
             </aside>
 
             {/* Main */}
-            <div className="relative z-10 flex-1 flex flex-col">
+            <div className="flex-1 flex flex-col">
 
                 {/* Navbar */}
                 <header className="bg-white/[0.03] backdrop-blur-xl border-b border-white/10 px-6 py-4 flex justify-between items-center">
@@ -67,12 +74,31 @@ function DashboardLayout() {
                     </div>
                 </header>
 
-                <main className="flex-1 overflow-y-auto p-8">
+                {/* Content */}
+                <main className="flex-1 overflow-y-auto p-6 md:p-8">
                     <Outlet />
                 </main>
 
             </div>
         </div>
+    );
+}
+
+/* 🔥 NavItem Component */
+function NavItem({ to, icon, label }) {
+    return (
+        <NavLink
+            to={to}
+            className={({ isActive }) =>
+                `flex items-center gap-3 px-4 py-2 rounded-lg transition text-sm
+                ${isActive
+                    ? "bg-blue-500/10 text-blue-400 border border-blue-500/20"
+                    : "text-slate-400 hover:bg-white/5 hover:text-white"}`
+            }
+        >
+            {icon}
+            {label}
+        </NavLink>
     );
 }
 
