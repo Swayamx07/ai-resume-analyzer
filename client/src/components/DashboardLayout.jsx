@@ -24,7 +24,7 @@ function DashboardLayout() {
             {/* Sidebar */}
             <aside className="w-64 bg-white/[0.03] backdrop-blur-xl border-r border-white/10 p-6 hidden md:flex flex-col">
 
-                <h2 className="text-xl font-bold text-blue-400 mb-10">
+                <h2 className="text-xl font-bold text-blue-400 mb-9">
                     AI Resume
                 </h2>
 
