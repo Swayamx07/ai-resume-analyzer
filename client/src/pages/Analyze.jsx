@@ -171,41 +171,6 @@ export default function Analyze() {
 
                     </div>
 
-                    {/* JOBS */}
-                    <div className="bg-[#111114] border border-white/10 rounded-2xl p-6">
-                        <h3 className="text-lg font-semibold mb-4">
-                            Recommended Jobs
-                        </h3>
-
-                        {result.recommendedJobs?.length === 0 && (
-                            <p className="text-gray-500 text-sm">
-                                No strong job matches found. Improve missing skills to unlock more jobs.
-                            </p>
-                        )}
-
-                        <div className="space-y-4">
-                            {result.recommendedJobs?.map((job, i) => (
-                                <div
-                                    key={i}
-                                    className="p-4 border border-white/10 rounded-xl hover:bg-white/5 transition"
-                                >
-                                    <p className="font-semibold">{job.title}</p>
-                                    <p className="text-sm text-gray-400">
-                                        {job.company_name || "Company"}
-                                    </p>
-
-                                    <a
-                                        href={job.url}
-                                        target="_blank"
-                                        className="text-blue-400 text-sm mt-2 inline-block"
-                                    >
-                                        Apply →
-                                    </a>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
                 </div>
             )}
 

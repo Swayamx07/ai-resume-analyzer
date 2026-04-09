@@ -71,21 +71,21 @@ app.post(
             const sectionAnalysis = analyzeSections(resumeText);
             let recommendedJobs = [];
 
-            try {
-                const jobRes = await axios.post(
-                    "http://localhost:5678/webhook/job-search",
-                    {
-                        skills: resumeSkills,
-                        role: role,
-                        user: req.user
-                    }
-                );
+            // try {
+            //     const jobRes = await axios.post(
+            //         "http://localhost:5678/webhook/job-search",
+            //         {
+            //             skills: resumeSkills,
+            //             role: role,
+            //             user: req.user
+            //         }
+            //     );
 
-                recommendedJobs = jobRes.data.jobs || [];
+            //     recommendedJobs = jobRes.data.jobs || [];
 
-            } catch (error) {
-                console.log("n8n job fetch failed:", error.message);
-            }
+            // } catch (error) {
+            //     console.log("n8n job fetch failed:", error.message);
+            // }
 
             let aiFeedback = null;
             try {

@@ -39,7 +39,7 @@ Rules:
 Resume:
 ${resumeText.slice(0, 10000)}
         `,
-                },
+                },   
             ],
         });
 
