@@ -47,6 +47,31 @@ export default function Analyze() {
 
         setLoading(false);
     };
+    const categorizeSkills = (skills) => {
+        const categories = {
+            frontend: ["html", "css", "react", "javascript"],
+            backend: ["node", "express", "mongodb"],
+            devops: ["docker", "aws"],
+            other: []
+        };
+
+        let result = {
+            frontend: 0,
+            backend: 0,
+            devops: 0,
+            other: 0
+        };
+
+        skills.forEach(skill => {
+            const s = skill.toLowerCase();
+            if (categories.frontend.includes(s)) result.frontend++;
+            else if (categories.backend.includes(s)) result.backend++;
+            else if (categories.devops.includes(s)) result.devops++;
+            else result.other++;
+        });
+
+        return result;
+    };
 
     return (
         <div className="relative min-h-screen flex flex-col items-center px-6 pb-20">

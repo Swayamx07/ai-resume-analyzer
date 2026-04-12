@@ -1,3 +1,15 @@
+import { Pie } from "react-chartjs-2";
+
+const skillData = categorizeSkills(result.detectedSkills);
+
+const chartData = {
+    labels: ["Frontend", "Backend", "DevOps", "Other"],
+    datasets: [
+        {
+            data: Object.values(skillData),
+        }
+    ]
+};
 function Results({ data }) {
     return (
         <div style={styles.container}>
@@ -22,6 +34,10 @@ function Results({ data }) {
                         <span key={i} style={styles.bad}>{skill}</span>
                     ))}
                 </div>
+            </div>
+            <div className="bg-[#111114] p-6 rounded-2xl border border-white/10">
+                <h3 className="text-lg mb-3">Skill Distribution</h3>
+                <Pie data={chartData} />
             </div>
         </div>
     );
@@ -50,4 +66,3 @@ const styles = {
 };
 
 export default Results;
- 
