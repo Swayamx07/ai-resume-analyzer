@@ -3,10 +3,19 @@ const skillsMap = require("../data/skillsMap");
 function extractSkillsFromText(text) {
     const detected = new Set();
 
-    const normalized = text.toLowerCase();
+    const normalized = text
+        .toLowerCase()
+        .replace(/[\n\r]/g, " ")
+        .replace(/[.,()]/g, " ")
+        .replace(/\s+/g, " ");
 
     for (let key in skillsMap) {
-        const regex = new RegExp(`\\b${key}\\b`, "i");
+        const escapedKey = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+        const regex = new RegExp(
+            `(^|\\s|,|\\.|-|\\/|\\()${escapedKey}(\\s|,|\\.|-|\\/|\\)|$)`,
+            "i"
+        );
 
         if (regex.test(normalized)) {
             detected.add(skillsMap[key]);
