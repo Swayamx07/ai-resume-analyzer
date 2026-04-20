@@ -1,6 +1,6 @@
 import { Outlet, useNavigate, NavLink } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import { LayoutDashboard, FileText, Briefcase } from "lucide-react";
+import { LayoutDashboard, FileText, Briefcase, History } from "lucide-react";
 
 function DashboardLayout() {
     const navigate = useNavigate();
@@ -47,6 +47,13 @@ function DashboardLayout() {
                         icon={<Briefcase size={18} />}
                         label="Jobs"
                     />
+
+                    <NavItem
+                        to="/history"
+                        icon={<History size={18} />}
+                        label="History"
+                    />
+
 
                 </nav>
             </aside>

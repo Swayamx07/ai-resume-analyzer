@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import API from "../api";
-import ResumeHistoryTable from "../components/ResumeHistoryTable";
-import ScoreTrendChart from "../components/ScoreTrendChart";
 
 function DashboardHome() {
     const [stats, setStats] = useState({
@@ -10,15 +9,13 @@ function DashboardHome() {
         topJob: "N/A",
     });
 
-    const [resumes, setResumes] = useState([]);
+    const [savedJobs, setSavedJobs] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const resumesRes = await API.get("/resumes");
                 const resumesData = resumesRes.data;
-
-                setResumes(resumesData);
 
                 setStats((prev) => ({
                     ...prev,
@@ -40,6 +37,13 @@ function DashboardHome() {
             } catch (err) {
                 console.error("Jobs fetch error", err);
             }
+
+            try {
+                const savedJobsRes = await API.get("/saved-jobs");
+                setSavedJobs(savedJobsRes.data);
+            } catch (err) {
+                console.error("Saved jobs fetch error", err);
+            }
         };
 
         fetchData();
@@ -47,8 +51,6 @@ function DashboardHome() {
 
     return (
         <div className="space-y-10">
-
-            {/* PAGE TITLE */}
             <div>
                 <h1 className="text-4xl font-semibold tracking-tight">
                     Welcome back 👋
@@ -58,10 +60,7 @@ function DashboardHome() {
                 </p>
             </div>
 
-            {/* STATS */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-                {/* Card 1 */}
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
                 <div className="bg-white/[0.03] backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-lg">
                     <h3 className="text-sm text-slate-400">
                         Resumes Analyzed
@@ -71,7 +70,6 @@ function DashboardHome() {
                     </p>
                 </div>
 
-                {/* Card 2 */}
                 <div className="bg-white/[0.03] backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-lg">
                     <h3 className="text-sm text-slate-400">
                         Latest Match Score
@@ -81,24 +79,89 @@ function DashboardHome() {
                     </p>
                 </div>
 
-                {/* Card 3 */}
                 <div className="bg-white/[0.03] backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-lg">
                     <h3 className="text-sm text-slate-400">
                         Top Job Match
                     </h3>
-                    <p className="text-4xl font-semibold text-purple-400 mt-3">
+                    <p className="text-3xl font-semibold text-purple-400 mt-3">
                         {stats.topJob}
                     </p>
                 </div>
 
+                <div className="bg-white/[0.03] backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-lg">
+                    <h3 className="text-sm text-slate-400">
+                        Saved Jobs
+                    </h3>
+                    <p className="text-4xl font-semibold text-yellow-400 mt-3">
+                        {savedJobs.length}
+                    </p>
+                </div>
             </div>
 
-            {/* TABLE */}
-            <ResumeHistoryTable resumes={resumes} />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="bg-white/[0.03] backdrop-blur-xl border border-white/10 p-6 rounded-2xl">
+                    <div className="flex items-center justify-between mb-4">
+                        <h2 className="text-xl font-semibold">Saved Jobs</h2>
 
-            {/* CHART */}
-            <ScoreTrendChart resumes={resumes} />
+                        <Link
+                            to="/jobs"
+                            className="text-blue-400 text-sm hover:text-blue-300"
+                        >
+                            View All →
+                        </Link>
+                    </div>
 
+                    {savedJobs.length === 0 ? (
+                        <p className="text-slate-400 text-sm">
+                            No saved jobs yet.
+                        </p>
+                    ) : (
+                        <div className="space-y-4">
+                            {savedJobs.slice(0, 5).map((job, index) => (
+                                <div
+                                    key={index}
+                                    className="flex justify-between items-center border-b border-white/10 pb-3"
+                                >
+                                    <div>
+                                        <p className="font-medium">{job.title}</p>
+                                        <p className="text-sm text-slate-400">
+                                            {job.company}
+                                        </p>
+                                    </div>
+
+                                    <a
+                                        href={job.link}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="text-blue-400 text-sm"
+                                    >
+                                        View →
+                                    </a>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+
+                <div className="bg-white/[0.03] backdrop-blur-xl border border-white/10 p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <h2 className="text-xl font-semibold mb-2">
+                            Resume History
+                        </h2>
+
+                        <p className="text-slate-400 text-sm mb-6">
+                            View previous resume analyses, ATS scores, and performance trends.
+                        </p>
+                    </div>
+
+                    <Link
+                        to="/history"
+                        className="inline-flex items-center text-blue-400 text-sm hover:text-blue-300"
+                    >
+                        Open History →
+                    </Link>
+                </div>
+            </div>
         </div>
     );
 }

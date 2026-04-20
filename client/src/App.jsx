@@ -10,6 +10,7 @@ import Register from "./pages/Register";
 import DashboardHome from "./pages/DashboardHome";
 import Analyze from "./pages/Analyze";
 import Jobs from "./pages/Jobs";
+import History from "./pages/History";
 
 const PageWrapper = ({ children }) => (
   <motion.div
@@ -57,6 +58,10 @@ function AppRoutes() {
           <Route
             path="/analyze"
             element={<PageWrapper><Analyze /></PageWrapper>}
+          />
+          <Route
+            path="/history"
+            element={<PageWrapper><History /></PageWrapper>}
           />
         </Route>
 
