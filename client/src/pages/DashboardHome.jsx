@@ -158,7 +158,7 @@ function DashboardHome() {
                         to="/history"
                         className="inline-flex items-center text-blue-400 text-sm hover:text-blue-300"
                     >
-                        Open History →
+                        Go to History →
                     </Link>
                 </div>
             </div>
