@@ -17,6 +17,10 @@ function Login() {
         try {
             const res = await API.post("/auth/login", { email, password });
             localStorage.setItem("token", res.data.token);
+            localStorage.setItem(
+                "user",
+                JSON.stringify(res.data.user)
+            );
             navigate("/dashboard");
         } catch {
             setError("Invalid credentials");

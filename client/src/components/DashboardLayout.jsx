@@ -1,20 +1,15 @@
 import { Outlet, useNavigate, NavLink } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
 import { LayoutDashboard, FileText, Briefcase, History } from "lucide-react";
 
 function DashboardLayout() {
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
 
-    let userId = "";
-
-    if (token) {
-        const decoded = jwtDecode(token);
-        userId = decoded.id;
-    }
 
     const handleLogout = () => {
         localStorage.removeItem("token");
+        localStorage.removeItem("user");
         navigate("/login");
     };
 
@@ -68,9 +63,23 @@ function DashboardLayout() {
                     </h1>
 
                     <div className="flex items-center gap-4">
-                        <span className="text-sm text-slate-400">
-                            User: {userId.slice(-6)}
-                        </span>
+                        <div className="flex items-center gap-3">
+
+                            <div className="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center font-semibold">
+                                {user?.name?.charAt(0)}
+                            </div>
+
+                            <div className="hidden sm:block">
+                                <p className="text-sm font-medium text-white">
+                                    {user?.name}
+                                </p>
+
+                                <p className="text-xs text-slate-400">
+                                    {user?.email}
+                                </p>
+                            </div>
+
+                        </div>
 
                         <button
                             onClick={handleLogout}

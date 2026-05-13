@@ -13,7 +13,8 @@ router.get("/real", protect, async (req, res) => {
             return res.json({ jobs: [] });
         }
 
-        const skills = latest.detectedSkills.join(" ");
+        const skills = latest.detectedSkills.slice(0, 3).join(" ");
+
         const location = "India";
 
         const url = `https://api.adzuna.com/v1/api/jobs/in/search/1?app_id=${process.env.ADZUNA_ID}&app_key=${process.env.ADZUNA_KEY}&what=${skills}&where=${location}`;
