@@ -24,6 +24,7 @@ export default function Analyze() {
                 console.log(err);
             }
         };
+
         fetchRoles();
     }, []);
 
@@ -47,157 +48,209 @@ export default function Analyze() {
 
         setLoading(false);
     };
-    const categorizeSkills = (skills) => {
-        const categories = {
-            frontend: ["html", "css", "react", "javascript"],
-            backend: ["node", "express", "mongodb"],
-            devops: ["docker", "aws"],
-            other: []
-        };
-
-        let result = {
-            frontend: 0,
-            backend: 0,
-            devops: 0,
-            other: 0
-        };
-
-        skills.forEach(skill => {
-            const s = skill.toLowerCase();
-            if (categories.frontend.includes(s)) result.frontend++;
-            else if (categories.backend.includes(s)) result.backend++;
-            else if (categories.devops.includes(s)) result.devops++;
-            else result.other++;
-        });
-
-        return result;
-    };
 
     return (
-        <div className="relative min-h-screen flex flex-col items-center px-6 pb-20">
+        <div className="relative min-h-screen px-6 py-8">
+
             <HeroBackground />
 
-            {/* HERO */}
-            <div className="text-center max-w-4xl space-y-6 mt-20">
-                <h1 className="text-5xl md:text-7xlfont-semibold tracking-tight">
-                    Analyze your Resume
-                    <br />
-                    <span className="text-gray-400">
-                        with AI intelligence
-                    </span>
-                </h1>
+            <div className="max-w-6xl mx-auto">
 
-                <p className="text-gray-400 text-lg">
-                    Upload resume → get ATS score → improve skills → discover real jobs
-                </p>
-            </div>
+                {/* HERO */}
+                <div className="text-center space-y-5 mb-10 mt-4">
 
-            {/* FORM */}
-            <div className="mt-12 w-full max-w-5xl bg-[#111114] border border-white/10 rounded-2xl p-6 space-y-4">
+                    <h1 className="text-5xl md:text-6xl font-semibold tracking-tight leading-tight">
+                        Analyze your Resume
+                        <br />
+                        <span className="text-gray-400">
+                            with AI intelligence
+                        </span>
+                    </h1>
 
-                <input
-                    type="file"
-                    accept=".pdf"
-                    onChange={(e) => setFile(e.target.files[0])}
-                    className="w-full p-3 rounded-lg bg-[#0b0b0f] border border-white/10 text-sm"
-                />
+                    <p className="text-gray-400 text-lg max-w-3xl mx-auto">
+                        Upload resume → get ATS score → improve skills → discover real jobs
+                    </p>
 
-                <input
-                    type="text"
-                    placeholder="Search job role..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="w-full p-3 rounded-lg bg-[#0b0b0f] border border-white/10 text-sm"
-                />
-
-                <div className="max-h-40 overflow-y-auto border border-white/10 rounded-lg">
-                    {filteredRoles.map((job) => (
-                        <div
-                            key={job._id}
-                            onClick={() => {
-                                setRole(job.title);
-                                setSearch(job.title);
-                            }}
-                            className="px-3 py-2 cursor-pointer hover:bg-white/10 text-sm"
-                        >
-                            {job.title}
-                        </div>
-                    ))}
                 </div>
 
-                {role && (
-                    <p className="text-sm text-green-400">
-                        Selected Role: {role}
-                    </p>
+                {/* FORM */}
+                <div className="
+                    w-full
+                    bg-[#111114]
+                    border border-white/10
+                    rounded-2xl
+                    p-6
+                    space-y-4
+                    shadow-xl
+                ">
+
+                    {/* FILE */}
+                    <input
+                        type="file"
+                        accept=".pdf"
+                        onChange={(e) => setFile(e.target.files[0])}
+                        className="
+                            w-full
+                            p-3
+                            rounded-lg
+                            bg-[#0b0b0f]
+                            border border-white/10
+                            text-sm
+                        "
+                    />
+
+                    {/* SEARCH */}
+                    <input
+                        type="text"
+                        placeholder="Search job role..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="
+                            w-full
+                            p-3
+                            rounded-lg
+                            bg-[#0b0b0f]
+                            border border-white/10
+                            text-sm
+                        "
+                    />
+
+                    {/* ROLE LIST */}
+                    <div className="
+                        max-h-52
+                        overflow-y-auto
+                        border border-white/10
+                        rounded-lg
+                        bg-[#0b0b0f]
+                    ">
+
+                        {filteredRoles.map((job) => (
+                            <div
+                                key={job._id}
+                                onClick={() => {
+                                    setRole(job.title);
+                                    setSearch(job.title);
+                                }}
+                                className="
+                                    px-4
+                                    py-3
+                                    cursor-pointer
+                                    hover:bg-white/5
+                                    text-sm
+                                    transition
+                                "
+                            >
+                                {job.title}
+                            </div>
+                        ))}
+
+                    </div>
+
+                    {/* SELECTED ROLE */}
+                    {role && (
+                        <p className="text-sm text-green-400">
+                            Selected Role: {role}
+                        </p>
+                    )}
+
+                    {/* BUTTON */}
+                    <button
+                        onClick={handleSubmit}
+                        className="
+                            w-full
+                            py-3
+                            rounded-xl
+                            bg-blue-600
+                            hover:bg-blue-500
+                            transition
+                            font-medium
+                            text-white
+                        "
+                    >
+                        {loading ? "Analyzing Resume..." : "Analyze Resume"}
+                    </button>
+
+                </div>
+
+                {/* LOADING */}
+                {loading && (
+                    <div className="mt-12 text-center text-gray-400 animate-pulse">
+                        AI is analyzing your resume...
+                    </div>
                 )}
 
-                <button
-                    onClick={handleSubmit}
-                    className="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-500 transition font-medium"
-                >
-                    {loading ? "Analyzing Resume..." : "Analyze Resume"}
-                </button>
-            </div>
+                {/* RESULTS */}
+                {result && (
+                    <div className="mt-12 space-y-6">
 
-            {/* LOADING */}
-            {loading && (
-                <div className="mt-20 text-gray-400 animate-pulse">
-                    AI is analyzing resume and finding jobs...
-                </div>
-            )}
+                        {/* SCORE */}
+                        <div className="
+                            bg-[#111114]
+                            border border-white/10
+                            rounded-2xl
+                            p-10
+                            text-center
+                        ">
 
-            {/* RESULT */}
-            {result && (
-                <div className="mt-14 w-full max-w-6xl space-y-6">
+                            <p className="text-gray-400 text-sm">
+                                ATS Match Score
+                            </p>
 
-                    {/* SCORE */}
-                    <div className="bg-[#111114] border border-white/10 rounded-2xl p-10 text-center">
-                        <p className="text-gray-400 text-sm">ATS Match Score</p>
-                        <h2 className="text-6xl font-bold mt-3 text-blue-500">
-                            {result.matchScore}%
-                        </h2>
+                            <h2 className="text-6xl font-bold mt-3 text-blue-500">
+                                {result.matchScore}%
+                            </h2>
 
-                        <div className="w-full bg-white/10 h-2 rounded-full mt-5 overflow-hidden">
-                            <div
-                                className="bg-blue-500 h-full"
-                                style={{ width: `${result.matchScore}%` }}
-                            />
+                            <div className="
+                                w-full
+                                bg-white/10
+                                h-2
+                                rounded-full
+                                mt-5
+                                overflow-hidden
+                            ">
+                                <div
+                                    className="bg-blue-500 h-full"
+                                    style={{ width: `${result.matchScore}%` }}
+                                />
+                            </div>
+
                         </div>
+
+                        {/* GRID */}
+                        <div className="grid md:grid-cols-2 gap-6">
+
+                            <Card title="Summary">
+                                {result.aiFeedback?.summary}
+                            </Card>
+
+                            <SkillsCard
+                                title="Detected Skills"
+                                color="blue"
+                                data={result.detectedSkills}
+                            />
+
+                            <SkillsCard
+                                title="Strengths"
+                                color="green"
+                                data={result.aiFeedback?.strengths}
+                            />
+
+                            <SkillsCard
+                                title="Missing Skills"
+                                color="red"
+                                data={result.aiFeedback?.missingSkills}
+                            />
+
+                            <Card title="Career Advice">
+                                {result.aiFeedback?.careerAdvice}
+                            </Card>
+
+                        </div>
+
                     </div>
+                )}
 
-                    {/* GRID */}
-                    <div className="grid md:grid-cols-2 gap-6">
-
-                        <Card title="Summary">
-                            {result.aiFeedback?.summary}
-                        </Card>
-
-                        <SkillsCard
-                            title="Detected Skills"
-                            color="blue"
-                            data={result.detectedSkills}
-                        />
-
-                        <SkillsCard
-                            title="Strengths"
-                            color="green"
-                            data={result.aiFeedback?.strengths}
-                        />
-
-                        <SkillsCard
-                            title="Missing Skills"
-                            color="red"
-                            data={result.aiFeedback?.missingSkills}
-                        />
-
-                        <Card title="Career Advice">
-                            {result.aiFeedback?.careerAdvice}
-                        </Card>
-
-                    </div>
-
-                </div>
-            )}
+            </div>
 
         </div>
     );
@@ -205,9 +258,19 @@ export default function Analyze() {
 
 function Card({ title, children }) {
     return (
-        <div className="bg-[#111114] border border-white/10 rounded-2xl p-6">
-            <h3 className="text-lg font-semibold mb-2">{title}</h3>
-            <p className="text-gray-400 text-sm leading-relaxed">{children}</p>
+        <div className="
+            bg-[#111114]
+            border border-white/10
+            rounded-2xl
+            p-6
+        ">
+            <h3 className="text-lg font-semibold mb-2">
+                {title}
+            </h3>
+
+            <p className="text-gray-400 text-sm leading-relaxed">
+                {children}
+            </p>
         </div>
     );
 }
@@ -221,19 +284,37 @@ function SkillsCard({ title, data, color }) {
     };
 
     return (
-        <div className="bg-[#111114] border border-white/10 rounded-2xl p-6">
-            <h3 className="text-lg font-semibold mb-3">{title}</h3>
+        <div className="
+            bg-[#111114]
+            border border-white/10
+            rounded-2xl
+            p-6
+        ">
+
+            <h3 className="text-lg font-semibold mb-3">
+                {title}
+            </h3>
 
             <div className="flex flex-wrap gap-2">
+
                 {data?.map((item, i) => (
                     <span
                         key={i}
-                        className={`px-3 py-1 text-sm border rounded-full ${colors[color]}`}
+                        className={`
+                            px-3
+                            py-1
+                            text-sm
+                            border
+                            rounded-full
+                            ${colors[color]}
+                        `}
                     >
                         {item}
                     </span>
                 ))}
+
             </div>
+
         </div>
     );
 }
