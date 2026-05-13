@@ -6,7 +6,7 @@ function extractSkillsFromText(text) {
     const normalized = text
         .toLowerCase()
         .replace(/[\n\r]/g, " ")
-        .replace(/[.,()]/g, " ")
+        .replace(/[^\w\s.+#-]/g, " ")
         .replace(/\s+/g, " ");
 
     for (let key in skillsMap) {
@@ -21,6 +21,7 @@ function extractSkillsFromText(text) {
             detected.add(skillsMap[key]);
         }
     }
+
 
     return Array.from(detected);
 }

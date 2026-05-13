@@ -1,48 +1,86 @@
-const JobRole = require("../models/JobRole");
+function calculateScore(resumeSkills, roleData, resumeText) {
 
-async function recommendJobs(resumeSkills) {
+    const required = roleData.requiredSkills || [];
+    const optional = roleData.optionalSkills || [];
 
-    if (!resumeSkills || resumeSkills.length === 0) {
-        return [];
+    const resume = resumeSkills.map(s => s.toLowerCase());
+    const lowerResume = resumeText.toLowerCase();
+
+    const matchedRequired = required.filter(skill =>
+        resume.some(r =>
+            r.includes(skill.toLowerCase()) ||
+            skill.toLowerCase().includes(r)
+        )
+    );
+
+    const matchedOptional = optional.filter(skill =>
+        resume.some(r =>
+            r.includes(skill.toLowerCase()) ||
+            skill.toLowerCase().includes(r)
+        )
+    );
+
+    const missingSkills = required.filter(skill =>
+        !resume.some(r =>
+            r.includes(skill.toLowerCase()) ||
+            skill.toLowerCase().includes(r)
+        )
+    );
+
+    // ---------- NEW SCORING ----------
+
+    let matchScore = 0;
+
+    // Required skills scoring
+    const requiredRatio =
+        required.length === 0
+            ? 0
+            : matchedRequired.length / required.length;
+
+    // Optional skills scoring
+    const optionalRatio =
+        optional.length === 0
+            ? 0
+            : matchedOptional.length / optional.length;
+
+    // Base ATS score
+    matchScore += 25;
+
+    // Required contributes heavily
+    matchScore += requiredRatio * 55;
+
+    // Optional contributes lightly
+    matchScore += optionalRatio * 20;
+
+    // Bonus for many detected resume skills
+    if (resumeSkills.length >= 10) {
+        matchScore += 5;
     }
 
-    const roles = await JobRole.find();
+    if (
+        lowerResume.includes("project") ||
+        lowerResume.includes("internship") ||
+        lowerResume.includes("experience")
+    ) {
+        matchScore += 5;
+    }
 
-    const normalizedResumeSkills =
-        resumeSkills.map(s => s.toLowerCase());
+    // Bonus if resume has projects/experience
+    if (
+        resume.includes("project") ||
+        resume.includes("internship") ||
+        resume.includes("experience")
+    ) {
+        matchScore += 5;
+    }
 
-    const results = roles.map(role => {
+    matchScore = Math.min(100, Math.round(matchScore));
 
-        const required = role.requiredSkills || [];
-
-        const normalizedRequired =
-            required.map(s => s.toLowerCase());
-
-        const matched =
-            normalizedRequired.filter(skill =>
-                normalizedResumeSkills.includes(skill)
-            );
-
-        const score =
-            required.length === 0
-                ? 0
-                : Math.round(
-                    (matched.length / required.length) * 100
-                );
-
-        return {
-            title: role.title,
-            score,
-            matchedSkills: matched,
-            description: role.description,
-            salaryRange: role.salaryRange
-        };
-    });
-
-    return results
-        .filter(job => job.score >= 20)
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 12);
+    return {
+        matchScore,
+        matchedSkills: [...matchedRequired, ...matchedOptional],
+        missingSkills
+    };
 }
 
-module.exports = recommendJobs;
+module.exports = calculateScore;
